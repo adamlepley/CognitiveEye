@@ -8,11 +8,19 @@
     <PackageReference Include="Xamarin.Forms" Version="2.5.0.280555" />
     <PackageReference Include="Microsoft.Cognitive.CustomVision.Training" Version="1.2.0" />
     <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.10" />
+    <PackageReference Include="CodeMill.VMFirstNav" Version="1.0.1.31" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />
     <Folder Include="ViewModels\" />
     <Folder Include="DataServices\" />
+    <Folder Include="ViewModels\Base\" />
+    <Folder Include="Views\Base\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Navigation\INavigationService.cs" />
+    <Compile Remove="Navigation\NavigationParameters.cs" />
+    <Compile Remove="Navigation\NavigationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Views\LoginView.xaml.cs">

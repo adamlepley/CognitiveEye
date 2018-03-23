@@ -1,5 +1,6 @@
 ﻿using Xamarin.Forms;
 using CongnitiveEye.Forms.Views;
+using CongnitiveEye.Forms.ViewModels;
 
 namespace CognitiveEye.Forms
 {
@@ -9,7 +10,10 @@ namespace CognitiveEye.Forms
         {
             InitializeComponent();
 
-            MainPage = new LoginView();
+            MainPage = new NavigationPage(new LoginView()
+            {
+                ViewModel = new LoginViewModel()
+            });
         }
 
         protected override void OnStart()

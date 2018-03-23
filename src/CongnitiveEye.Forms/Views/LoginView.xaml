@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage
+<Views:BaseContentPage x:TypeArguments="VMs:LoginViewModel"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:vm="clr-namespace:CongnitiveEye.Forms.ViewModels"
+    xmlns:VMs="clr-namespace:CongnitiveEye.Forms.ViewModels"
+    xmlns:Views="clr-namespace:CongnitiveEye.Forms.Views"
     x:Class="CongnitiveEye.Forms.Views.LoginView">
-
-    <ContentPage.BindingContext>
-        <vm:LoginViewModel />
-    </ContentPage.BindingContext>
     
     <ContentPage.Content>
         <StackLayout
             VerticalOptions="Center"
             Margin="20">
+            <Label
+                Text="Congitive Eye"
+                Margin="20"
+                FontSize="24"
+                HorizontalOptions="Center"/>
             <Entry
                 Placeholder="Training Key"
                 Text="{Binding TrainingKey}" />
@@ -20,9 +22,9 @@
                 Placeholder="Prediction Key"
                 Text="{Binding PredictionKey}" />
             
-            <Button Text="Log my in" Command="{Binding LoginCommand}" />
+            <Button Text="Lets Get Started" Command="{Binding LoginCommand}" />
             
         </StackLayout>
     </ContentPage.Content>
     
-</ContentPage>
+</Views:BaseContentPage>

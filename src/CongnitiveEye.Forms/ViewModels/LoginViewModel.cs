@@ -9,7 +9,7 @@ namespace CongnitiveEye.Forms.ViewModels
     {
         public LoginViewModel()
         {
-            //TODO: Load keys from local Storage/cache
+            
         }
 
         #region Bindable Props

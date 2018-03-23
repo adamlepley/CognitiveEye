@@ -105,6 +105,9 @@
     <Reference Include="Microsoft.Rest.ClientRuntime">
       <HintPath>..\packages\Microsoft.Rest.ClientRuntime.2.3.10\lib\netstandard1.4\Microsoft.Rest.ClientRuntime.dll</HintPath>
     </Reference>
+    <Reference Include="CodeMill.VMFirstNav">
+      <HintPath>..\packages\CodeMill.VMFirstNav.1.0.1.31\lib\netstandard1.0\CodeMill.VMFirstNav.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />

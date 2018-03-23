@@ -8,6 +8,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using CognitiveEye.Forms;
+using CodeMill.VMFirstNav;
 
 namespace CognitiveEye.Droid
 {
@@ -24,6 +25,8 @@ namespace CognitiveEye.Droid
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
             LoadApplication(new App());
+
+            NavigationService.Instance.RegisterViewModels(typeof(App).Assembly);
         }
     }
 }
