@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Views:BaseContentPage x:TypeArguments="VMs:ProjectsViewModel"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:VMs="clr-namespace:CongnitiveEye.Forms.ViewModels"
+    xmlns:Views="clr-namespace:CongnitiveEye.Forms.Views"
+    x:Class="CongnitiveEye.Forms.Views.ProjectsView">
+    
+    <ContentPage.Content>
+        <ListView
+            ItemsSource="{Binding Projects}" >
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />   <!--Project Image-->
+                                <ColumnDefinition Width="*" />      <!--Project Name-->
+                                <ColumnDefinition Width="Auto" />   <!--Cevron Name-->
+                                
+                            </Grid.ColumnDefinitions>
+
+                            <!--Project Image-->
+                            <Image Grid.Column="0"
+                                WidthRequest="50"
+                                HeightRequest="50"
+                                Source="{Binding ThumbnailUri}" />
+
+                            <!--Project Name-->
+                            <Label Grid.Column="1"
+                                Text="{Binding Name}" />
+                           
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
+</Views:BaseContentPage>

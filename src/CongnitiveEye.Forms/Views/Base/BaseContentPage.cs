@@ -20,7 +20,7 @@ namespace CongnitiveEye.Forms.Views
 
         public BaseContentPage()
         {
-            
+            this.SetBinding(Page.TitleProperty, "Title");
         }
 
     }
