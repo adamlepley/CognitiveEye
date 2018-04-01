@@ -4,37 +4,56 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:VMs="clr-namespace:CongnitiveEye.Forms.ViewModels"
     xmlns:Views="clr-namespace:CongnitiveEye.Forms.Views"
+    xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
     x:Class="CongnitiveEye.Forms.Views.ProjectsView">
     
     <ContentPage.Content>
-        <ListView
-            ItemsSource="{Binding Projects}" >
+        <flv:FlowListView
+            FlowColumnCount="2"
+            FlowItemsSource="{Binding Projects}"
+            FlowItemTappedCommand="{Binding OpenProject}"
+            HasUnevenRows="true">
 
-            <ListView.ItemTemplate>
+            <ListView.FlowColumnTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />   <!--Project Image-->
-                                <ColumnDefinition Width="*" />      <!--Project Name-->
-                                <ColumnDefinition Width="Auto" />   <!--Cevron Name-->
-                                
-                            </Grid.ColumnDefinitions>
+                    
+                    <Frame
+                        Margin="10"
+                        Padding="5">
+                        
+                        <StackLayout>
 
                             <!--Project Image-->
-                            <Image Grid.Column="0"
-                                WidthRequest="50"
-                                HeightRequest="50"
-                                Source="{Binding ThumbnailUri}" />
+                            <Grid
+                                BackgroundColor="Gray"
+                                Padding="1">
+                                <Image
+                                    VerticalOptions="Fill"
+                                    BackgroundColor="Black"
+                                    HeightRequest="100"
+                                    Aspect="AspectFill"
+                                    Source="{Binding ThumbnailUri}" />
+                                
+                            </Grid>
 
-                            <!--Project Name-->
-                            <Label Grid.Column="1"
-                                Text="{Binding Name}" />
                            
-                        </Grid>
-                    </ViewCell>
+                            <!--Project Name & Description-->
+                            <Label
+                                Text="{Binding Name}"
+                                FontSize="12"
+                                FontAttributes="Bold"/>
+                            
+                            <Label
+                                Text="{Binding Description}"
+                                FontSize="10"
+                                TextColor="Gray"
+                                LineBreakMode="WordWrap"/>
+                                
+                           
+                        </StackLayout>
+                    </Frame>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </ListView.FlowColumnTemplate>
+        </flv:FlowListView>
     </ContentPage.Content>
 </Views:BaseContentPage>

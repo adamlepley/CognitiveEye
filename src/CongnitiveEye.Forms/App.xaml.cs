@@ -1,6 +1,7 @@
 ﻿using Xamarin.Forms;
 using CongnitiveEye.Forms.Views;
 using CongnitiveEye.Forms.ViewModels;
+using DLToolkit.Forms.Controls;
 
 namespace CognitiveEye.Forms
 {
@@ -9,6 +10,8 @@ namespace CognitiveEye.Forms
         public App()
         {
             InitializeComponent();
+
+            FlowListView.Init();
 
             MainPage = new NavigationPage(new LoginView()
             {

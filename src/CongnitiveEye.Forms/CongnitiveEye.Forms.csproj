@@ -9,6 +9,7 @@
     <PackageReference Include="Microsoft.Cognitive.CustomVision.Training" Version="1.2.0" />
     <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.10" />
     <PackageReference Include="CodeMill.VMFirstNav" Version="1.0.1.31" />
+    <PackageReference Include="DLToolkit.Forms.Controls.FlowListView" Version="2.0.10" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />
