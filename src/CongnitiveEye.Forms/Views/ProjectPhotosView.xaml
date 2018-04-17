@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Views:BaseContentPage x:TypeArguments="VMs:ProjectsViewModel"
+<Views:BaseContentPage x:TypeArguments="VMs:ProjectPhotosViewModel"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:VMs="clr-namespace:CongnitiveEye.Forms.ViewModels"
     xmlns:Views="clr-namespace:CongnitiveEye.Forms.Views"
     xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
-    x:Class="CongnitiveEye.Forms.Views.ProjectsView" >
-    
-     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" />
+    x:Class="CongnitiveEye.Forms.Views.ProjectPhotosView" >
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Take Pic" />
     </ContentPage.ToolbarItems>
     
     <ContentPage.Content>
+        
         <flv:FlowListView
             BackgroundColor="#DADFE1"
-            FlowColumnCount="2"
-            FlowItemsSource="{Binding Projects}"
-            FlowItemTappedCommand="{Binding OpenProject}"
+            FlowColumnCount="3"
+            FlowItemsSource="{Binding Images}"
+            FlowItemTappedCommand="{Binding OpenImage}"
             HasUnevenRows="true">
 
             <flv:FlowListView.FlowColumnTemplate>
@@ -43,7 +44,7 @@
 
                            
                             <!--Project Name & Description-->
-                            <Label
+                            <!--<Label
                                 Text="{Binding Name}"
                                 FontSize="12"
                                 FontAttributes="Bold"/>
@@ -52,7 +53,7 @@
                                 Text="{Binding Description}"
                                 FontSize="10"
                                 TextColor="Gray"
-                                LineBreakMode="WordWrap"/>
+                                LineBreakMode="WordWrap"/>-->
                                 
                            
                         </StackLayout>
@@ -61,4 +62,5 @@
             </flv:FlowListView.FlowColumnTemplate>
         </flv:FlowListView>
     </ContentPage.Content>
+    
 </Views:BaseContentPage>

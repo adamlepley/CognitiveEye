@@ -2,11 +2,22 @@
 using CongnitiveEye.Forms.Views;
 using CongnitiveEye.Forms.ViewModels;
 using DLToolkit.Forms.Controls;
+using Microsoft.Cognitive.CustomVision.Training.Models;
+using Microsoft.Cognitive.CustomVision.Training;
 
 namespace CognitiveEye.Forms
 {
     public partial class App : Application
     {
+
+        #region Static Props
+
+        public static Project SelectedProject { get; set; }
+
+        public static TrainingApi AppTrainingApi { get; set; }
+
+        #endregion
+
         public App()
         {
             InitializeComponent();

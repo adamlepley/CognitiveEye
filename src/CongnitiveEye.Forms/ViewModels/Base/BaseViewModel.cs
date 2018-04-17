@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using CodeMill.VMFirstNav;
+using Microsoft.Cognitive.CustomVision.Training.Models;
 
 namespace CongnitiveEye.Forms.ViewModels
 {
@@ -34,7 +35,6 @@ namespace CongnitiveEye.Forms.ViewModels
         }
 
         string isBusy;
-
         public string IsBusy
         {
             get => isBusy;

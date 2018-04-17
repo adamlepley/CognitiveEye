@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using CognitiveEye.Forms;
 using Microsoft.Cognitive.CustomVision.Training.Models;
 using Xamarin.Forms;
 
@@ -43,13 +44,13 @@ namespace CongnitiveEye.Forms.ViewModels
         private async Task ExecuteLoginAsync()
         {
             // Set the training key
-            var trainingApi = new Microsoft.Cognitive.CustomVision.Training.TrainingApi()
+            App.AppTrainingApi = new Microsoft.Cognitive.CustomVision.Training.TrainingApi()
             {
                 ApiKey = TrainingKey
             };
 
             // Get Projects
-            var projects = await trainingApi.GetProjectsWithHttpMessagesAsync();
+            var projects = await App.AppTrainingApi.GetProjectsWithHttpMessagesAsync();
 
             // Push a project view on the stack and pass the project we just received
             await NavService.PushAsync<ProjectsViewModel>(new ProjectsViewModel

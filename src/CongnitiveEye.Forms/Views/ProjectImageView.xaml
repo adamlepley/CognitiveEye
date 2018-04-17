@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Views:BaseContentPage x:TypeArguments="VMs:ProjectImageViewModel"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:VMs="clr-namespace:CongnitiveEye.Forms.ViewModels"
+    xmlns:Views="clr-namespace:CongnitiveEye.Forms.Views"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="CongnitiveEye.Forms.Views.ProjectImageView"
+    BackgroundColor="#DADFE1" >
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Try Again" />
+    </ContentPage.ToolbarItems>
+    
+    <ContentPage.Content>
+        <Grid>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <Frame Grid.Row="0"
+                Margin="10"
+                Padding="5">
+
+                <!--Project Image-->
+                <Grid
+                    BackgroundColor="Gray"
+                    Padding="1">
+                    <Image
+                        VerticalOptions="Fill"
+                        BackgroundColor="Black"
+                        HeightRequest="100"
+                        Aspect="AspectFill"
+                        Source="{Binding SelectedImage.ImageUri}" />
+                    
+                </Grid>
+               
+            </Frame>
+
+            <Label Grid.Row="1"
+                HorizontalOptions="Center"
+                Margin="20,100"
+                FontSize="28"
+                HorizontalTextAlignment="Center"
+                FontAttributes="Bold"
+                LineBreakMode="WordWrap"
+                Text="I'm 97% confident this is a Millennium Falcon" />
+            
+        </Grid>
+
+    </ContentPage.Content>
+    
+</Views:BaseContentPage>
