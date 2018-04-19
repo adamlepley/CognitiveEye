@@ -11,6 +11,7 @@
     <PackageReference Include="CodeMill.VMFirstNav" Version="1.0.1.31" />
     <PackageReference Include="DLToolkit.Forms.Controls.FlowListView" Version="2.0.10" />
     <PackageReference Include="Xam.Plugin.Media" Version="3.1.3" />
+    <PackageReference Include="Acr.UserDialogs" Version="7.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />

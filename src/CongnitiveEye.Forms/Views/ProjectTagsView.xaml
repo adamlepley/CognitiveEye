@@ -9,7 +9,7 @@
     x:Name="thisProjectTagsView">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add Tag" />
+        <ToolbarItem Text="Add Tag" Command="{Binding AddTag}" />
     </ContentPage.ToolbarItems>
     
     <ContentPage.Content>

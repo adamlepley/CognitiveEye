@@ -15,8 +15,8 @@
         <Grid>
             
             <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             
             <Frame Grid.Row="0"
@@ -38,15 +38,21 @@
                
             </Frame>
 
-            <Label Grid.Row="1"
-                HorizontalOptions="Center"
-                Margin="20,100"
-                FontSize="28"
-                HorizontalTextAlignment="Center"
-                FontAttributes="Bold"
-                LineBreakMode="WordWrap"
-                Text="I'm 97% confident this is a Millennium Falcon" />
-            
+            <StackLayout Grid.Row="1"
+                         Spacing="20"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center"
+                         Orientation="Horizontal">
+                
+                <Picker WidthRequest="200"
+                        ItemsSource="{Binding Tags}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SelectedTag}"/>
+                
+                <Button IsVisible="{Binding IsDirty}"
+                        Text="Save"
+                        Command="{Binding SaveTag}" />
+            </StackLayout>
         </Grid>
 
     </ContentPage.Content>

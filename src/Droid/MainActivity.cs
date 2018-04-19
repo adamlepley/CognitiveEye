@@ -9,6 +9,7 @@ using Android.Widget;
 using Android.OS;
 using CognitiveEye.Forms;
 using CodeMill.VMFirstNav;
+using Acr.UserDialogs;
 
 namespace CognitiveEye.Droid
 {
@@ -23,6 +24,8 @@ namespace CognitiveEye.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+
+            UserDialogs.Init(this);
 
             LoadApplication(new App());
 
