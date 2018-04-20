@@ -8,59 +8,64 @@
     x:Class="CongnitiveEye.Forms.Views.ProjectPhotosView" >
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Take Pic" />
+        <ToolbarItem Text="Add Pic" Command="{Binding AddPic}" />
     </ContentPage.ToolbarItems>
     
     <ContentPage.Content>
-        
-        <flv:FlowListView
-            BackgroundColor="#DADFE1"
-            FlowColumnCount="3"
-            FlowItemsSource="{Binding Images}"
-            FlowItemTappedCommand="{Binding OpenImage}"
-            HasUnevenRows="true">
+        <Grid>
+            <flv:FlowListView
+                BackgroundColor="#DADFE1"
+                FlowColumnCount="3"
+                FlowItemsSource="{Binding Images}"
+                FlowItemTappedCommand="{Binding OpenImage}"
+                HasUnevenRows="true">
 
-            <flv:FlowListView.FlowColumnTemplate>
-                <DataTemplate>
-                    
-                    <Frame
-                        Margin="10"
-                        Padding="5">
+                <flv:FlowListView.FlowColumnTemplate>
+                    <DataTemplate>
                         
-                        <StackLayout>
-
-                            <!--Project Image-->
-                            <Grid
-                                BackgroundColor="Gray"
-                                Padding="1">
-                                <Image
-                                    VerticalOptions="Fill"
-                                    BackgroundColor="Black"
-                                    HeightRequest="100"
-                                    Aspect="AspectFill"
-                                    Source="{Binding ThumbnailUri}" />
-                                
-                            </Grid>
-
-                           
-                            <!--Project Name & Description-->
-                            <!--<Label
-                                Text="{Binding Name}"
-                                FontSize="12"
-                                FontAttributes="Bold"/>
+                        <Frame
+                            Margin="10"
+                            Padding="5">
                             
-                            <Label
-                                Text="{Binding Description}"
-                                FontSize="10"
-                                TextColor="Gray"
-                                LineBreakMode="WordWrap"/>-->
+                            <StackLayout>
+
+                                <!--Project Image-->
+                                <Grid
+                                    BackgroundColor="Gray"
+                                    Padding="1">
+                                    <Image
+                                        VerticalOptions="Fill"
+                                        BackgroundColor="Black"
+                                        HeightRequest="100"
+                                        Aspect="AspectFill"
+                                        Source="{Binding ThumbnailUri}" />
+                                    
+                                </Grid>
+
+                               
+                                <!--Project Name & Description-->
+                                <!--<Label
+                                    Text="{Binding Name}"
+                                    FontSize="12"
+                                    FontAttributes="Bold"/>
                                 
-                           
-                        </StackLayout>
-                    </Frame>
-                </DataTemplate>
-            </flv:FlowListView.FlowColumnTemplate>
-        </flv:FlowListView>
+                                <Label
+                                    Text="{Binding Description}"
+                                    FontSize="10"
+                                    TextColor="Gray"
+                                    LineBreakMode="WordWrap"/>-->
+                                    
+                               
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </flv:FlowListView.FlowColumnTemplate>
+            </flv:FlowListView>
+            <ActivityIndicator
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                IsRunning="{Binding IsBusy}" />
+        </Grid>
     </ContentPage.Content>
     
 </Views:BaseContentPage>

@@ -17,6 +17,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             
             <Frame Grid.Row="0"
@@ -53,6 +54,13 @@
                         Text="Save"
                         Command="{Binding SaveTag}" />
             </StackLayout>
+
+            <Button
+                Grid.Row="2"
+                Margin="10"
+                TextColor="Red"
+                Text="Remove Picture"
+                Command="{Binding RemoveImage}" />
         </Grid>
 
     </ContentPage.Content>

@@ -7,7 +7,7 @@
 	<key>CFBundleName</key>
 	<string>CognitiveEye</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.psclistens.CognitiveEye</string>
+	<string>com.psclistens.cognitiveeye</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
@@ -42,5 +42,9 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs access to the camera to take photos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to photos.</string>
 </dict>
 </plist>

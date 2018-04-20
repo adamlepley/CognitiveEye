@@ -25,6 +25,12 @@ namespace CongnitiveEye.Forms.ViewModels
 
         #endregion
 
+        #region Abstact Methods
+
+        public virtual void OnAppearing() { }
+
+        #endregion
+
         #region Common BindableProps
 
         string title;
@@ -34,8 +40,8 @@ namespace CongnitiveEye.Forms.ViewModels
             set => SetProperty(ref title, value);
         }
 
-        string isBusy;
-        public string IsBusy
+        bool isBusy;
+        public bool IsBusy
         {
             get => isBusy;
             set => SetProperty(ref isBusy, value);

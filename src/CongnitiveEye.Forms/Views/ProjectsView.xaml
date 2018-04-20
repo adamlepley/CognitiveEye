@@ -8,7 +8,7 @@
     x:Class="CongnitiveEye.Forms.Views.ProjectsView" >
     
      <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" />
+        <ToolbarItem Text="Add" Command="{Binding AddProject}" />
     </ContentPage.ToolbarItems>
     
     <ContentPage.Content>

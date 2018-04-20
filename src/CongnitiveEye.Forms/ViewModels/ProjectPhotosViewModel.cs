@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using CognitiveEye.Forms;
 using Microsoft.Cognitive.CustomVision.Training.Models;
+using Plugin.Media;
 using Xamarin.Forms;
 
 namespace CongnitiveEye.Forms.ViewModels
@@ -16,6 +17,13 @@ namespace CongnitiveEye.Forms.ViewModels
             SelectedTag = selectedTag;
 
             Title = selectedTag.Name;
+
+            LoadPhotos().ConfigureAwait(false);
+        }
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
 
             LoadPhotos().ConfigureAwait(false);
         }
@@ -59,6 +67,44 @@ namespace CongnitiveEye.Forms.ViewModels
 
             await NavService.PushAsync<ProjectImageViewModel>(new ProjectImageViewModel(selectedImage));
 
+        }
+
+        ICommand addPic;
+        public ICommand AddPic =>
+            addPic ?? (addPic = new Command(async () => await ExecuteAddTag()));
+
+        private async Task ExecuteAddTag()
+        {
+            IsBusy = true;
+
+            await CrossMedia.Current.Initialize();
+    
+            if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+            {
+                await Application.Current.MainPage.DisplayAlert("No Camera", ":( No camera available.", "OK");
+                return;
+            }
+
+            var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+            {
+                PhotoSize = Plugin.Media.Abstractions.PhotoSize.Medium,
+                SaveToAlbum = false,
+                Directory = "Sample",
+                Name = "test.jpg"
+            });
+
+            if (file == null)
+                return;
+
+            List<string> TagIds = new List<string>();
+            TagIds.Add(selectedTag.Id.ToString());
+
+            var result = await App.AppTrainingApi.CreateImagesFromDataWithHttpMessagesAsync(App.SelectedProject.Id, file.GetStream(), TagIds);
+
+            if (result.Response.IsSuccessStatusCode && result.Body?.Images != null && result.Body.Images.Count > 0)
+                Images.Add(result.Body.Images[0].Image);
+
+            IsBusy = false;
         }
 
         #endregion

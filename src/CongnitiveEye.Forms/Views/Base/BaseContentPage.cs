@@ -23,6 +23,13 @@ namespace CongnitiveEye.Forms.Views
             this.SetBinding(Page.TitleProperty, "Title");
         }
 
-    }
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+
+            ViewModel.OnAppearing();
+		}
+
+	}
 }
 

@@ -15,13 +15,17 @@ namespace CongnitiveEye.Forms.ViewModels
         public ProjectImageViewModel(Microsoft.Cognitive.CustomVision.Training.Models.Image selectedImage)
         {
             Title = "Computer Vision";
-
             SelectedImage = selectedImage;
-
-            LoadTags().ConfigureAwait(false);
         }
 
-        public async Task LoadTags()
+		public override void OnAppearing()
+		{
+			base.OnAppearing();
+
+            LoadTags().ConfigureAwait(false);
+		}
+
+		public async Task LoadTags()
         {
             var tags = await App.AppTrainingApi.GetTagsWithHttpMessagesAsync(App.SelectedProject.Id);
 
@@ -98,6 +102,30 @@ namespace CongnitiveEye.Forms.ViewModels
             imageTags.Add(new ImageTagCreateEntry(SelectedImage.Id, SelectedTag.Id));
 
             await App.AppTrainingApi.PostImageTagsWithHttpMessagesAsync(App.SelectedProject.Id, new ImageTagCreateBatch(imageTags));
+
+            IsDirty = false;
+        }
+
+
+        ICommand removeImage;
+        public ICommand RemoveImage =>
+            removeImage ?? (removeImage = new Command(async () => await ExecuteRemoveImage()));
+
+        private async Task ExecuteRemoveImage()
+        {
+            List<string> tagIds = new List<string>();
+
+            foreach (var t in SelectedImage.Tags)
+            {
+                tagIds.Add(t.TagId.ToString());
+            }
+
+            List<string> imageIds = new List<string>();
+            imageIds.Add(SelectedImage.Id.ToString());
+
+            await App.AppTrainingApi.DeleteImageTagsWithHttpMessagesAsync(App.SelectedProject.Id, imageIds,tagIds);
+            await NavService.PopAsync();
+
         }
 
         #endregion

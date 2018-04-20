@@ -14,11 +14,16 @@ namespace CongnitiveEye.Forms.ViewModels
         public ProjectTagsViewModel()
         {
             Title = "Tags";
-
-            LoadTags().ConfigureAwait(false);
         }
 
-        public async Task LoadTags()
+		public override void OnAppearing()
+		{
+			base.OnAppearing();
+
+            LoadTags().ConfigureAwait(false);
+		}
+
+		public async Task LoadTags()
         {
             var tags = await App.AppTrainingApi.GetTagsWithHttpMessagesAsync(App.SelectedProject.Id);
 
