@@ -67,6 +67,7 @@
                 <Label
                     HorizontalOptions="Center"
                     Text="{Binding ResultsMessage}"
+                    HorizontalTextAlignment="Center"
                     FontSize="22"
                     FontAttributes="Bold"
                     LineBreakMode="WordWrap" />

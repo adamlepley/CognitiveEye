@@ -4,27 +4,39 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:VMs="clr-namespace:CongnitiveEye.Forms.ViewModels"
     xmlns:Views="clr-namespace:CongnitiveEye.Forms.Views"
-    x:Class="CongnitiveEye.Forms.Views.LoginView">
+    x:Class="CongnitiveEye.Forms.Views.LoginView"
+    BackgroundColor="#DADFE1">
     
     <ContentPage.Content>
-        <StackLayout
-            VerticalOptions="Center"
-            Margin="20">
-            <Label
+        <Grid>
+            <Grid.RowDefinitions>
+                 <RowDefinition Height="*" />
+                 <RowDefinition Height="Auto" />
+                 <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+             <Label
                 Text="Congitive Eye"
                 Margin="20"
-                FontSize="24"
+                VerticalTextAlignment="Center"
+                HorizontalTextAlignment="Center"
+                FontSize="40"
                 HorizontalOptions="Center"/>
-            <Entry
-                Placeholder="Training Key"
-                Text="{Binding TrainingKey}" />
-            <Entry
-                Placeholder="Prediction Key"
-                Text="{Binding PredictionKey}" />
             
-            <Button Text="Lets Get Started" Command="{Binding LoginCommand}" />
-            
-        </StackLayout>
+            <StackLayout
+                Grid.Row="1"
+                VerticalOptions="Center"
+                Margin="20">
+                <Entry
+                    Placeholder="Training Key"
+                    Text="{Binding TrainingKey}" />
+                <Entry
+                    Placeholder="Prediction Key"
+                    Text="{Binding PredictionKey}" />
+                
+                <Button Text="Lets Get Started" Command="{Binding LoginCommand}" />
+                
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
     
 </Views:BaseContentPage>
