@@ -23,6 +23,7 @@
                 <DataTemplate>
                     
                     <Frame
+                        BackgroundColor="#346C81"
                         Margin="10"
                         Padding="5">
                         
@@ -30,7 +31,7 @@
 
                             <!--Project Image-->
                             <Grid
-                                BackgroundColor="Gray"
+                                BackgroundColor="#DADFE1"
                                 Padding="1">
                                 <Image
                                     VerticalOptions="Fill"
@@ -44,14 +45,15 @@
                            
                             <!--Project Name & Description-->
                             <Label
+                                TextColor="White"
                                 Text="{Binding Name}"
-                                FontSize="12"
+                                FontSize="16"
                                 FontAttributes="Bold"/>
                             
                             <Label
                                 Text="{Binding Description}"
-                                FontSize="10"
-                                TextColor="Gray"
+                                FontSize="12"
+                                TextColor="#DADFE1"
                                 LineBreakMode="WordWrap"/>
                                 
                            

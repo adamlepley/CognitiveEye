@@ -14,28 +14,43 @@
                  <RowDefinition Height="Auto" />
                  <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-             <Label
-                Text="Congitive Eye"
-                Margin="20"
-                VerticalTextAlignment="Center"
-                HorizontalTextAlignment="Center"
-                FontSize="40"
-                HorizontalOptions="Center"/>
-            
+
+            <!--Header-->
+            <StackLayout VerticalOptions="Center">
+                <Image Source="eye.png"/>
+                <Label
+                    Text="Cognitive Eye"
+                    Margin="0"
+                    TextColor="#346C81"
+                    VerticalTextAlignment="Center"
+                    HorizontalTextAlignment="Center"
+                    FontSize="40"
+                    HorizontalOptions="Center"/>
+            </StackLayout>
+
+            <!--Keys Inputs and Login Button-->
             <StackLayout
                 Grid.Row="1"
                 VerticalOptions="Center"
+                Spacing="15"
                 Margin="20">
                 <Entry
+                    HeightRequest="45"
                     Placeholder="Training Key"
                     Text="{Binding TrainingKey}" />
-                <Entry
+                <!--<Entry
                     Placeholder="Prediction Key"
-                    Text="{Binding PredictionKey}" />
+                    Text="{Binding PredictionKey}" />-->
                 
-                <Button Text="Lets Get Started" Command="{Binding LoginCommand}" />
+                <Button Text="Let The Training Begin..." BackgroundColor="#346C81" TextColor="White" Command="{Binding LoginCommand}" />
                 
             </StackLayout>
+
+            <StackLayout Grid.Row="2" VerticalOptions="End" Margin="15" >
+                <Label HorizontalOptions="Center" TextColor="#346C81" Text="Powered By Microsoft Azure" />
+                <Button VerticalOptions="Center" HeightRequest="20" Text=" Custom Vision Service" />
+            </StackLayout>
+            
         </Grid>
     </ContentPage.Content>
     
