@@ -4,8 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:VMs="clr-namespace:CongnitiveEye.Forms.ViewModels"
     xmlns:Views="clr-namespace:CongnitiveEye.Forms.Views"
+    xmlns:Util="clr-namespace:CongnitiveEye.Forms.Utilities"                      
     xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
-    x:Class="CongnitiveEye.Forms.Views.ProjectsView" >
+    x:Class="CongnitiveEye.Forms.Views.ProjectsView"
+    BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}">
     
      <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Command="{Binding AddProject}" />
@@ -13,7 +15,7 @@
     
     <ContentPage.Content>
         <flv:FlowListView
-            BackgroundColor="#DADFE1"
+            BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}"
             FlowColumnCount="2"
             FlowItemsSource="{Binding Projects}"
             FlowItemTappedCommand="{Binding OpenProject}"
@@ -23,7 +25,7 @@
                 <DataTemplate>
                     
                     <Frame
-                        BackgroundColor="#346C81"
+                        BackgroundColor="{x:Static Util:ColorUtil.PrimaryColor}"
                         Margin="10"
                         Padding="5">
                         
@@ -31,7 +33,7 @@
 
                             <!--Project Image-->
                             <Grid
-                                BackgroundColor="#DADFE1"
+                                BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}"
                                 Padding="1">
                                 <Image
                                     VerticalOptions="Fill"
@@ -53,7 +55,7 @@
                             <Label
                                 Text="{Binding Description}"
                                 FontSize="12"
-                                TextColor="#DADFE1"
+                                TextColor="{x:Static Util:ColorUtil.SecondaryColor}"
                                 LineBreakMode="WordWrap"/>
                                 
                            

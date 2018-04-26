@@ -4,8 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:VMs="clr-namespace:CongnitiveEye.Forms.ViewModels"
     xmlns:Views="clr-namespace:CongnitiveEye.Forms.Views"
+    xmlns:Util="clr-namespace:CongnitiveEye.Forms.Utilities"                   
     x:Class="CongnitiveEye.Forms.Views.LoginView"
-    BackgroundColor="#DADFE1">
+    BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}">
     
     <ContentPage.Content>
         <Grid>
@@ -21,7 +22,7 @@
                 <Label
                     Text="Cognitive Eye"
                     Margin="0"
-                    TextColor="#346C81"
+                    TextColor="{x:Static Util:ColorUtil.PrimaryColor}"
                     VerticalTextAlignment="Center"
                     HorizontalTextAlignment="Center"
                     FontSize="40"
@@ -42,13 +43,13 @@
                     Placeholder="Prediction Key"
                     Text="{Binding PredictionKey}" />-->
                 
-                <Button Text="Let The Training Begin..." BackgroundColor="#346C81" TextColor="White" Command="{Binding LoginCommand}" />
+                <Button Text="Let The Training Begin..." BackgroundColor="{x:Static Util:ColorUtil.PrimaryColor}" TextColor="White" Command="{Binding LoginCommand}" />
                 
             </StackLayout>
 
-            <StackLayout Grid.Row="2" VerticalOptions="End" Margin="15" >
-                <Label HorizontalOptions="Center" TextColor="#346C81" Text="Powered By Microsoft Azure" />
-                <Button VerticalOptions="Center" HeightRequest="20" Text=" Custom Vision Service" />
+            <StackLayout Grid.Row="2" VerticalOptions="End" Margin="20" >
+                <Label HorizontalOptions="Center" TextColor="{x:Static Util:ColorUtil.PrimaryColor}" Text="Powered By Microsoft Azure" />
+                <Button VerticalOptions="Center" HeightRequest="20" Text="Custom Vision Service" />
             </StackLayout>
             
         </Grid>

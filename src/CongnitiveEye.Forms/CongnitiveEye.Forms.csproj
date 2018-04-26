@@ -19,6 +19,7 @@
     <Folder Include="DataServices\" />
     <Folder Include="ViewModels\Base\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Utilities\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Navigation\INavigationService.cs" />
