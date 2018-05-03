@@ -1,5 +1,133 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="CongnitiveEye.Forms.Views.ProjectMenuView">
+<?xml version="1.0" encoding="UTF-8"?>
+<Views:BaseContentPage x:TypeArguments="VMs:ProjectMenuViewModel"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:VMs="clr-namespace:CongnitiveEye.Forms.ViewModels"
+    xmlns:Views="clr-namespace:CongnitiveEye.Forms.Views"
+    xmlns:Util="clr-namespace:CongnitiveEye.Forms.Utilities" 
+    x:Class="CongnitiveEye.Forms.Views.ProjectMenuView"
+    BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}">
     <ContentPage.Content>
+        <Grid Margin="20" RowSpacing="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <Frame Grid.Row="0"
+                   VerticalOptions="Center"
+                   BackgroundColor="{x:Static Util:ColorUtil.PrimaryColor}">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectTrain}" />
+                </Frame.GestureRecognizers>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    
+                     <Image Grid.Column="0"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Aspect="AspectFit"
+                            WidthRequest="100"
+                            HeightRequest="100"
+                            Source="training.png" />
+
+                    <Label Grid.Column="1"
+                           FontSize="40"
+                           FontAttributes="Bold"
+                           Text="Train"
+                           TextColor="White"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="End"
+                           VerticalTextAlignment="Center" />
+                           
+                </Grid>
+            </Frame>
+            
+             <Frame Grid.Row="1"
+                    VerticalOptions="Center"
+                    BackgroundColor="{x:Static Util:ColorUtil.PrimaryColor}">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCloudVision}" />
+                </Frame.GestureRecognizers>
+                <Grid HeightRequest="100"> 
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    
+                     <Image Grid.Column="0"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Aspect="AspectFit"
+                            WidthRequest="100"
+                            HeightRequest="100"
+                            Source="clouds.png" />
+
+                    <Label Grid.Column="1"
+                           FontSize="40"
+                           FontAttributes="Bold"
+                           Text="Cloud Vision"
+                           TextColor="White"
+                           LineBreakMode="WordWrap"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="End"
+                           VerticalTextAlignment="Center" />
+                           
+                </Grid>
+                
+            </Frame>
+            
+             <Frame Grid.Row="2"
+                    VerticalOptions="Center"
+                    BackgroundColor="{x:Static Util:ColorUtil.PrimaryColor}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    
+                     <Image Grid.Column="0"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Aspect="AspectFit"
+                            WidthRequest="80"
+                            HeightRequest="80"
+                            Opacity=".5"
+                            Source="device.png" />
+
+                    <Label Grid.Column="1"
+                           FontSize="40"
+                           FontAttributes="Bold"
+                           Text="Device Vision"
+                           LineBreakMode="WordWrap"
+                           TextColor="White"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="End"
+                           Opacity=".5"
+                           VerticalTextAlignment="Center" />
+
+                    <Label Grid.ColumnSpan="2"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"
+                           FontSize="40"
+                           Rotation="-22.5"
+                           Text="Coming Soon"
+                           FontAttributes="Italic"
+                           TextColor="White"
+                           />
+                           
+                </Grid>
+                
+                
+            </Frame>
+            
+        </Grid>
     </ContentPage.Content>
-</ContentPage>
+</Views:BaseContentPage>

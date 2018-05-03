@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:VMs="clr-namespace:CongnitiveEye.Forms.ViewModels"
     xmlns:Views="clr-namespace:CongnitiveEye.Forms.Views"
+    xmlns:Util="clr-namespace:CongnitiveEye.Forms.Utilities"
     xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
     x:Class="CongnitiveEye.Forms.Views.ProjectPhotosView" >
 
@@ -14,7 +15,7 @@
     <ContentPage.Content>
         <Grid>
             <flv:FlowListView
-                BackgroundColor="#DADFE1"
+                BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}"
                 FlowColumnCount="3"
                 FlowItemsSource="{Binding Images}"
                 FlowItemTappedCommand="{Binding OpenImage}"
@@ -24,6 +25,7 @@
                     <DataTemplate>
                         
                         <Frame
+                            BackgroundColor="{x:Static Util:ColorUtil.PrimaryColor}"
                             Margin="10"
                             Padding="5">
                             
@@ -31,8 +33,9 @@
 
                                 <!--Project Image-->
                                 <Grid
-                                    BackgroundColor="Gray"
+                                    BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}"
                                     Padding="1">
+                                    
                                     <Image
                                         VerticalOptions="Fill"
                                         BackgroundColor="Black"
