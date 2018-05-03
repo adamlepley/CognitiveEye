@@ -186,6 +186,15 @@
     <BundleResource Include="Resources\chevron_down.png" />
     <BundleResource Include="Resources\chevron_down%402x.png" />
     <BundleResource Include="Resources\chevron_down%403x.png" />
+    <BundleResource Include="Resources\training.png" />
+    <BundleResource Include="Resources\training%402x.png" />
+    <BundleResource Include="Resources\training%403x.png" />
+    <BundleResource Include="Resources\clouds.png" />
+    <BundleResource Include="Resources\clouds%402x.png" />
+    <BundleResource Include="Resources\clouds%403x.png" />
+    <BundleResource Include="Resources\device.png" />
+    <BundleResource Include="Resources\device%402x.png" />
+    <BundleResource Include="Resources\device%403x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.280555\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.280555\build\netstandard1.0\Xamarin.Forms.targets')" />

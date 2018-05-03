@@ -49,6 +49,7 @@
                     ItemsSource="{Binding Tags}"
                     ItemDisplayBinding="{Binding Name}"
                     SelectedItem="{Binding SelectedTag}"/>
+                
                 <Image
                     Margin="15,0"
                     WidthRequest="20"
