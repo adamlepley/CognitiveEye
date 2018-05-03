@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
@@ -11,6 +13,9 @@ namespace CongnitiveEye.Forms.ViewModels
 {
     public class ProjectsViewModel : BaseViewModel
     {
+
+        public List<Domain> Domains;
+
         public ProjectsViewModel()
         {
             Title = "Projects";
@@ -28,7 +33,17 @@ namespace CongnitiveEye.Forms.ViewModels
             // Get Projects
             var projects = await App.AppTrainingApi.GetProjectsWithHttpMessagesAsync();
 
+            if (projects?.Body == null)
+                return;
+            
             Projects = new ObservableCollection<Project>(projects.Body);
+
+            var domains = await App.AppTrainingApi.GetDomainsWithHttpMessagesAsync();
+
+            if (domains?.Body == null)
+                return;
+
+            Domains = new List<Domain>(domains.Body);
         }
 
 
@@ -58,23 +73,25 @@ namespace CongnitiveEye.Forms.ViewModels
 
             App.SelectedProject = selectedProject;
 
-            var action = await Application.Current.MainPage.DisplayActionSheet("What would you like to do?", "Cancel", null, "Computer Vision (Server)", "Computer Vision (Device)", "Learn & Train");
+            await NavService.PushAsync<ProjectMenuViewModel>(new ProjectMenuViewModel());
 
-            switch (action)
-            {
-                case "Computer Vision (Server)":
-                    await NavService.PushAsync<ProjectIterationsViewModel>(new ProjectIterationsViewModel());
-                    break;
-                case "Computer Vision (Device)":
-                    break;
-                case "Learn & Train":
-                    await NavService.PushAsync<ProjectTagsViewModel>(new ProjectTagsViewModel());
-                    break;
-                case "Manage Project":
-                    break;
-                default:
-                    break;
-            }
+            //var action = await Application.Current.MainPage.DisplayActionSheet("What would you like to do?", "Cancel", null, "Computer Vision (Server)", "Computer Vision (Device)", "Learn & Train");
+
+            //switch (action)
+            //{
+            //    case "Computer Vision (Server)":
+            //        await NavService.PushAsync<ProjectIterationsViewModel>(new ProjectIterationsViewModel());
+            //        break;
+            //    case "Computer Vision (Device)":
+            //        break;
+            //    case "Learn & Train":
+            //        await NavService.PushAsync<ProjectTagsViewModel>(new ProjectTagsViewModel());
+            //        break;
+            //    case "Manage Project":
+            //        break;
+            //    default:
+            //        break;
+            //}
 
         }
 
@@ -84,6 +101,24 @@ namespace CongnitiveEye.Forms.ViewModels
 
         private async Task ExecuteAddProject()
         {
+            // Ask for domain
+            var listOfDomains = Domains.Select((arg) => arg.Name).ToArray<string>();
+
+            var domainSelected = await Application.Current.MainPage.DisplayActionSheet(
+                "What type of project would you like to create ? ",
+                "Cancel",
+                null,
+                listOfDomains);
+
+            if (domainSelected == null)
+                return;
+
+            var foundDomain = Domains.Where((arg) => arg.Name == domainSelected).FirstOrDefault();
+
+            if (foundDomain == null)
+                return;
+
+            // Ask for project name
             var promptConfig = new PromptConfig()
             {
                 InputType = InputType.Default,
@@ -94,17 +129,19 @@ namespace CongnitiveEye.Forms.ViewModels
 
             if (!newProjectName.Ok || string.IsNullOrWhiteSpace(newProjectName.Text)) { return; }
 
+            // Ask for project description
             promptConfig = new PromptConfig()
             {
                 InputType = InputType.Default,
                 Title = "Enter a description of the project"
             };
 
+
             var newProjectDescription = await UserDialogs.Instance.PromptAsync(promptConfig);
 
             if (!newProjectDescription.Ok || string.IsNullOrWhiteSpace(newProjectDescription.Text)) { return; }
 
-            var newProject = await App.AppTrainingApi.CreateProjectWithHttpMessagesAsync(newProjectName.Text, newProjectDescription.Text);
+            var newProject = await App.AppTrainingApi.CreateProjectWithHttpMessagesAsync(newProjectName.Text, newProjectDescription.Text, foundDomain.Id);
 
             Projects.Add(newProject.Body);
         }
