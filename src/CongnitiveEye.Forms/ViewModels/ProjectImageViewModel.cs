@@ -27,6 +27,8 @@ namespace CongnitiveEye.Forms.ViewModels
 
 		public async Task LoadTags()
         {
+            ShowBusy("Loading Tags...");
+
             var tags = await App.AppTrainingApi.GetTagsWithHttpMessagesAsync(App.SelectedProject.Id);
 
             Tags = new ObservableCollection<Tag>(tags.Body.Tags);
@@ -35,6 +37,15 @@ namespace CongnitiveEye.Forms.ViewModels
             {
                 SelectedTag = Tags.Where((args) => args.Id == SelectedImage.Tags[0].TagId).FirstOrDefault();
             }
+
+            HideBusy();
+        }
+
+        public void CheckIfIsDirty()
+        {
+            IsDirty = (SelectedImage.Tags == null)
+                    || (SelectedImage.Tags.Count == 0)
+                    || SelectedImage.Tags[0].TagId != SelectedTag.Id;
         }
 
         #region Bindable Props
@@ -57,20 +68,20 @@ namespace CongnitiveEye.Forms.ViewModels
         public Tag SelectedTag
         {
             get => selectedTag;
-            set
-            {
-                SetProperty(ref selectedTag, value);
-                IsDirty = (SelectedImage.Tags == null)
-                    || (SelectedImage.Tags.Count == 0)
-                    || SelectedImage.Tags[0].TagId != value.Id;
-            }
+            set => SetProperty(ref selectedTag, value);
         }
 
         bool isDirty = false;
         public bool IsDirty
         {
             get => isDirty;
-            set => SetProperty(ref isDirty, value);
+            set
+            {
+                SetProperty(ref isDirty, value);
+                if (value)
+                    ExecuteSaveTag().ConfigureAwait(false);
+            }
+
         }
 
         #endregion
@@ -101,7 +112,11 @@ namespace CongnitiveEye.Forms.ViewModels
             var imageTags = new List<ImageTagCreateEntry>();
             imageTags.Add(new ImageTagCreateEntry(SelectedImage.Id, SelectedTag.Id));
 
+            ShowBusy("Updating Tag...");
+
             await App.AppTrainingApi.PostImageTagsWithHttpMessagesAsync(App.SelectedProject.Id, new ImageTagCreateBatch(imageTags));
+
+            HideBusy();
 
             IsDirty = false;
         }
@@ -123,9 +138,12 @@ namespace CongnitiveEye.Forms.ViewModels
             List<string> imageIds = new List<string>();
             imageIds.Add(SelectedImage.Id.ToString());
 
+            ShowBusy("Removing Image...", Acr.UserDialogs.MaskType.Gradient);
+
             await App.AppTrainingApi.DeleteImageTagsWithHttpMessagesAsync(App.SelectedProject.Id, imageIds,tagIds);
             await NavService.PopAsync();
 
+            HideBusy();
         }
 
         #endregion

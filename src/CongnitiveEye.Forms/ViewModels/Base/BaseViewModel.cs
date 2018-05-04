@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using CodeMill.VMFirstNav;
 using Microsoft.Cognitive.CustomVision.Training.Models;
+using Acr.UserDialogs;
 
 namespace CongnitiveEye.Forms.ViewModels
 {
@@ -17,6 +18,18 @@ namespace CongnitiveEye.Forms.ViewModels
         public BaseViewModel()
         {
             NavService = NavigationService.Instance;
+        }
+
+        public void ShowBusy(string title = null, MaskType maskType = MaskType.None)
+        {
+            IsBusy = true;
+            UserDialogs.Instance.ShowLoading(title, maskType);
+        }
+
+        public void HideBusy()
+        {
+            IsBusy = false;
+            UserDialogs.Instance.HideLoading();
         }
 
         #region Common Props
@@ -37,14 +50,14 @@ namespace CongnitiveEye.Forms.ViewModels
         public string Title
         {
             get => title;
-            set => SetProperty(ref title, value);
+            set => SetProperty(ref title, value); 
         }
 
         bool isBusy;
         public bool IsBusy
         {
             get => isBusy;
-            set => SetProperty(ref isBusy, value);
+            private set => SetProperty(ref isBusy, value);
         }
 
         #endregion

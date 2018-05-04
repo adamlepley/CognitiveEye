@@ -84,13 +84,6 @@
                         LineBreakMode="WordWrap" />
               
             </StackLayout>
-
-             <ActivityIndicator
-                Grid.Row="2"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
-                IsRunning="{Binding IsBusy}" />
-            
         </Grid>
     </ContentPage.Content>
 </Views:BaseContentPage>

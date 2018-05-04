@@ -13,6 +13,8 @@ namespace CongnitiveEye.Forms.ViewModels
         public LoginViewModel()
         {
             Title = "Login";
+
+            TrainingKey = App.TrainingKey;
         }
 
         #region Bindable Props
@@ -22,7 +24,11 @@ namespace CongnitiveEye.Forms.ViewModels
         public string TrainingKey
         {
             get => trainingKey;
-            set => SetProperty(ref trainingKey, value);
+            set
+            {
+                SetProperty(ref trainingKey, value);
+                App.TrainingKey = value;
+            }
         }
 
         string predictionKey = string.Empty;
@@ -43,6 +49,8 @@ namespace CongnitiveEye.Forms.ViewModels
 
         private async Task ExecuteLoginAsync()
         {
+            ShowBusy("Logging In...", Acr.UserDialogs.MaskType.Gradient);
+
             // Set the training key
             App.AppTrainingApi = new Microsoft.Cognitive.CustomVision.Training.TrainingApi()
             {
@@ -57,6 +65,8 @@ namespace CongnitiveEye.Forms.ViewModels
             {
                 Projects = new ObservableCollection<Project>(projects.Body)
             });
+
+            HideBusy();
         }
 
         #endregion

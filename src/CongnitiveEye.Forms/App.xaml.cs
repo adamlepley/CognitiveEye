@@ -4,6 +4,8 @@ using CongnitiveEye.Forms.ViewModels;
 using DLToolkit.Forms.Controls;
 using Microsoft.Cognitive.CustomVision.Training.Models;
 using Microsoft.Cognitive.CustomVision.Training;
+using Plugin.Settings;
+using Plugin.Settings.Abstractions;
 
 namespace CognitiveEye.Forms
 {
@@ -15,6 +17,15 @@ namespace CognitiveEye.Forms
         public static Project SelectedProject { get; set; }
 
         public static TrainingApi AppTrainingApi { get; set; }
+
+        private static ISettings AppSettings =>
+            CrossSettings.Current;
+
+        public static string TrainingKey
+        {
+            get => AppSettings.GetValueOrDefault(nameof(TrainingKey), string.Empty);
+            set => AppSettings.AddOrUpdateValue(nameof(TrainingKey), value);
+        }
 
         #endregion
 

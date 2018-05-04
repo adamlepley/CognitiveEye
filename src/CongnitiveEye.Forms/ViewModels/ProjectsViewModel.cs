@@ -30,6 +30,8 @@ namespace CongnitiveEye.Forms.ViewModels
 
 		async Task LoadProjects()
         {
+            ShowBusy("Loading Projects...");
+
             // Get Projects
             var projects = await App.AppTrainingApi.GetProjectsWithHttpMessagesAsync();
 
@@ -44,6 +46,8 @@ namespace CongnitiveEye.Forms.ViewModels
                 return;
 
             Domains = new List<Domain>(domains.Body);
+
+            HideBusy();
         }
 
 
@@ -141,9 +145,13 @@ namespace CongnitiveEye.Forms.ViewModels
 
             if (!newProjectDescription.Ok || string.IsNullOrWhiteSpace(newProjectDescription.Text)) { return; }
 
+            ShowBusy("Adding Project...", MaskType.Gradient);
+
             var newProject = await App.AppTrainingApi.CreateProjectWithHttpMessagesAsync(newProjectName.Text, newProjectDescription.Text, foundDomain.Id);
 
-            Projects.Add(newProject.Body);
+            Projects.Add(newProject.Body);;
+
+            HideBusy();
         }
 
         #endregion
