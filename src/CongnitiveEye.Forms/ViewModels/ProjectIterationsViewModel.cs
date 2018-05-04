@@ -26,13 +26,17 @@ namespace CongnitiveEye.Forms.ViewModels
 
 		async Task LoadIterations()
         {
+            ShowBusy("Loading Iterations...");
+
             var iterations = await App.AppTrainingApi.GetIterationsWithHttpMessagesAsync(App.SelectedProject.Id);
 
             if (iterations.Body == null || iterations.Body.Count == 0) { return; }
 
-            Iterations = new ObservableCollection<Iteration>(iterations.Body.Where((arg) => arg.Status == "Completed"));
+            Iterations = new ObservableCollection<Iteration>(iterations.Body.Where((arg) => arg.Status == "Completed").OrderByDescending((arg) => arg.TrainedAt));
 
             SelectedIteration = Iterations.Where((arg) => arg.IsDefault == true).FirstOrDefault();
+
+            HideBusy();
         }
 
         #region Bindable Props
@@ -82,7 +86,6 @@ namespace CongnitiveEye.Forms.ViewModels
 
         private async Task ExecuteTestModel()
         {
-            IsBusy = true;
             ResultsMessage = "";
 
             await CrossMedia.Current.Initialize();
@@ -112,6 +115,8 @@ namespace CongnitiveEye.Forms.ViewModels
 
             Microsoft.Rest.HttpOperationResponse<ImagePredictionResult> result;
 
+            ShowBusy("Predicting...", Acr.UserDialogs.MaskType.Gradient);
+
             try
             {
                 result = await App.AppTrainingApi.QuickTestImageWithHttpMessagesAsync(App.SelectedProject.Id, file.GetStream(), SelectedIteration.Id);
@@ -119,7 +124,7 @@ namespace CongnitiveEye.Forms.ViewModels
             catch (Microsoft.Rest.HttpOperationException ex)
             {
                 ResultsMessage = ex.Response.Content;
-                IsBusy = false;
+                HideBusy();
                 return;
             }
 
@@ -148,7 +153,7 @@ namespace CongnitiveEye.Forms.ViewModels
                 ResultsMessage = "Somthing went wront :(";
             }
 
-            IsBusy = false;
+            HideBusy();
         }
 
         ICommand reTrain;
@@ -161,8 +166,7 @@ namespace CongnitiveEye.Forms.ViewModels
 
             ResultsMessage = "";
             SelectedImage = null;
-            IsBusy = true;
-            ResultsMessage = "Training...";
+            ShowBusy("Training...", Acr.UserDialogs.MaskType.Gradient);
 
             try
             {
@@ -171,7 +175,7 @@ namespace CongnitiveEye.Forms.ViewModels
             catch (Microsoft.Rest.HttpOperationException ex)
             {
                 ResultsMessage = ex.Response.Content;
-                IsBusy = false;
+                HideBusy();
                 return;
             }
 
@@ -194,7 +198,7 @@ namespace CongnitiveEye.Forms.ViewModels
 
             ResultsMessage = "New Model Trained!";
 
-            IsBusy = false;
+            HideBusy();
 
         }
 

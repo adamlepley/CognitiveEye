@@ -30,9 +30,13 @@ namespace CongnitiveEye.Forms.ViewModels
 
         public async Task LoadPhotos()
         {
+            ShowBusy("Loading Images...");
+
             var photos = await App.AppTrainingApi.GetTaggedImagesWithHttpMessagesAsync(App.SelectedProject.Id, null, new List<string>() { SelectedTag.Id.ToString() });
 
             Images = new ObservableCollection<Microsoft.Cognitive.CustomVision.Training.Models.Image>(photos.Body);
+
+            HideBusy();
         }
 
         #region Bindable Props
@@ -75,8 +79,6 @@ namespace CongnitiveEye.Forms.ViewModels
 
         private async Task ExecuteAddTag()
         {
-            IsBusy = true;
-
             await CrossMedia.Current.Initialize();
     
             if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
@@ -95,6 +97,8 @@ namespace CongnitiveEye.Forms.ViewModels
 
             if (file == null)
                 return;
+            
+            ShowBusy("Uploading Image...");
 
             List<string> TagIds = new List<string>();
             TagIds.Add(selectedTag.Id.ToString());
@@ -104,7 +108,7 @@ namespace CongnitiveEye.Forms.ViewModels
             if (result.Response.IsSuccessStatusCode && result.Body?.Images != null && result.Body.Images.Count > 0)
                 Images.Add(result.Body.Images[0].Image);
 
-            IsBusy = false;
+            HideBusy();
         }
 
         #endregion

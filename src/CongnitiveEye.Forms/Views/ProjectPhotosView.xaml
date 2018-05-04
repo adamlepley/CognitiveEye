@@ -64,10 +64,6 @@
                     </DataTemplate>
                 </flv:FlowListView.FlowColumnTemplate>
             </flv:FlowListView>
-            <ActivityIndicator
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
-                IsRunning="{Binding IsBusy}" />
         </Grid>
     </ContentPage.Content>
     

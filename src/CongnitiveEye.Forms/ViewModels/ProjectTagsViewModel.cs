@@ -25,9 +25,14 @@ namespace CongnitiveEye.Forms.ViewModels
 
 		public async Task LoadTags()
         {
+            
+            ShowBusy("Loading Tags...");
+
             var tags = await App.AppTrainingApi.GetTagsWithHttpMessagesAsync(App.SelectedProject.Id);
 
             Tags = new ObservableCollection<Tag>(tags.Body.Tags);
+
+            HideBusy();
         }
 
         #region Bindable Props
@@ -74,9 +79,13 @@ namespace CongnitiveEye.Forms.ViewModels
 
             if (!newTag.Ok || string.IsNullOrWhiteSpace(newTag.Text)) { return; }
 
+            ShowBusy("Adding Tag...");
+
             await App.AppTrainingApi.CreateTagWithHttpMessagesAsync(App.SelectedProject.Id, newTag.Text);
 
             await LoadTags();
+
+            HideBusy();
 
         }
 

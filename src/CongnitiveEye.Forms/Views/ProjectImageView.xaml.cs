@@ -11,5 +11,10 @@ namespace CongnitiveEye.Forms.Views
         {
             InitializeComponent();
         }
+
+        void TagPicker_Unfocused(object sender, Xamarin.Forms.FocusEventArgs e)
+        {
+            ViewModel.CheckIfIsDirty();
+        }
     }
 }
