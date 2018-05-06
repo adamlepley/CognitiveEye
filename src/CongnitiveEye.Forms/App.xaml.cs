@@ -50,7 +50,7 @@ namespace CognitiveEye.Forms
 
             if (CongnitiveEye.Forms.Utilities.SecretsUtility.AppCenterSecret != "APP_CENTER_SECRET")
             {
-                AppCenter.Start(appCenterKey,
+                AppCenter.Start(CongnitiveEye.Forms.Utilities.SecretsUtility.AppCenterSecret,
                                 typeof(Analytics), typeof(Crashes));
             }
         }
