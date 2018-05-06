@@ -6,6 +6,9 @@ using Microsoft.Cognitive.CustomVision.Training.Models;
 using Microsoft.Cognitive.CustomVision.Training;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace CognitiveEye.Forms
 {
@@ -44,6 +47,12 @@ namespace CognitiveEye.Forms
         protected override void OnStart()
         {
             // Handle when your app starts
+
+            if (CongnitiveEye.Forms.Utilities.SecretsUtility.AppCenterSecret != "APP_CENTER_SECRET")
+            {
+                AppCenter.Start(appCenterKey,
+                                typeof(Analytics), typeof(Crashes));
+            }
         }
 
         protected override void OnSleep()
