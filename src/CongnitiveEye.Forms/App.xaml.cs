@@ -9,6 +9,7 @@ using Plugin.Settings.Abstractions;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Microsoft.AppCenter.Distribute;
 
 namespace CognitiveEye.Forms
 {
@@ -51,7 +52,7 @@ namespace CognitiveEye.Forms
             if (CongnitiveEye.Forms.Utilities.SecretsUtility.AppCenterSecret != "APP_CENTER_SECRET")
             {
                 AppCenter.Start(CongnitiveEye.Forms.Utilities.SecretsUtility.AppCenterSecret,
-                                typeof(Analytics), typeof(Crashes));
+                                typeof(Analytics), typeof(Crashes),typeof(Distribute));
             }
         }
 
