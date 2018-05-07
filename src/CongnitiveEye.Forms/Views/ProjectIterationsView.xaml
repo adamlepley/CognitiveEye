@@ -8,22 +8,22 @@
     x:Class="CongnitiveEye.Forms.Views.ProjectIterationsView"
     BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}">
 
-     <ContentPage.ToolbarItems>
+   <!--  <ContentPage.ToolbarItems>
         <ToolbarItem Text="Test Model" Command="{Binding TestModel}" />
-    </ContentPage.ToolbarItems>
+    </ContentPage.ToolbarItems>-->
     
     <ContentPage.Content>
-        <Grid Margin="10">
+        <Grid Margin="10" RowSpacing="10">
 
             
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="2*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0"
-                  Margin="0, 20"
                   ColumnSpacing="20"
                   HorizontalOptions="Fill"
                   VerticalOptions="Center">
@@ -32,25 +32,43 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                
-                <Picker HeightRequest="45"
-                        HorizontalOptions="Fill"
-                        ItemsSource="{Binding Iterations}"
-                        ItemDisplayBinding="{Binding Name}"
-                        SelectedItem="{Binding SelectedIteration}"/>
+
+                <Grid>
+                    <Picker HeightRequest="45"
+                            HorizontalOptions="Fill"
+                            ItemsSource="{Binding Iterations}"
+                            ItemDisplayBinding="{Binding Name}"
+                            SelectedItem="{Binding SelectedIteration}"/>
+                    <Image
+                        Margin="15,0"
+                        WidthRequest="20"
+                        InputTransparent="true"
+                        Source="chevron_down.png"  
+                        HorizontalOptions="End"
+                        VerticalOptions="Center" />
+                </Grid>
                 
                 <Button Grid.Column="1"
                         WidthRequest="100"
                         HeightRequest="45"
                         BackgroundColor="{x:Static Util:ColorUtil.PrimaryColor}"
                         TextColor="White"
-                        Text="Re-Train"
+                        Text="Train"
                         Command="{Binding ReTrain}" />
             </Grid>
+
+            <Button Grid.Row="1"
+                    HeightRequest="45"
+                    BackgroundColor="{x:Static Util:ColorUtil.AccentColor}"
+                    TextColor="White"
+                    Text="Take a Pic!"
+                    IsVisible="{Binding ShowPhotoButton}"
+                    Command="{Binding TestModel}" />
             
             
-            <Frame Grid.Row="1"
+            <Frame Grid.Row="2"
                    BackgroundColor="{x:Static Util:ColorUtil.PrimaryColor}"
+                   IsVisible="{Binding ShowPic}"
                    Margin="0"
                    Padding="5">
 
@@ -70,11 +88,11 @@
                
             </Frame>
 
-            <StackLayout Grid.Row="2"
+            <StackLayout Grid.Row="3"
                          Spacing="20"
-                         HorizontalOptions="Center"
-                         VerticalOptions="Center"
-                         Orientation="Horizontal">
+                         HorizontalOptions="Fill"
+                         VerticalOptions="Center">
+               
                 
                 <Label  HorizontalOptions="Center"
                         Text="{Binding ResultsMessage}"
@@ -82,6 +100,13 @@
                         FontSize="22"
                         FontAttributes="Bold"
                         LineBreakMode="WordWrap" />
+
+                <Button HeightRequest="45"
+                        BackgroundColor="{x:Static Util:ColorUtil.ActionColor}"
+                        TextColor="White"
+                        Text="Tag and Upload Image"
+                        Command="{Binding TagImage}"
+                        IsVisible="{Binding CanTagUpload}"/>
               
             </StackLayout>
         </Grid>

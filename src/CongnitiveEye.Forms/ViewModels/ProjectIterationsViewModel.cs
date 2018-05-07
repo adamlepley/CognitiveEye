@@ -1,28 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Acr.UserDialogs;
 using CognitiveEye.Forms;
 using Microsoft.Cognitive.CustomVision.Training.Models;
 using Plugin.Media;
+using Plugin.Media.Abstractions;
 using Xamarin.Forms;
 
 namespace CongnitiveEye.Forms.ViewModels
 {
     public class ProjectIterationsViewModel : BaseViewModel
     {
+        private MediaFile lastPhoto;
+        private ImageTagPrediction lastPrediction;
+
+
         public ProjectIterationsViewModel()
         {
             LoadIterations().ConfigureAwait(false);
         }
 
-		public override void OnAppearing()
-		{
-			base.OnAppearing();
-
-		}
 
 		async Task LoadIterations()
         {
@@ -35,6 +37,13 @@ namespace CongnitiveEye.Forms.ViewModels
             Iterations = new ObservableCollection<Iteration>(iterations.Body.Where((arg) => arg.Status == "Completed").OrderByDescending((arg) => arg.TrainedAt));
 
             SelectedIteration = Iterations.Where((arg) => arg.IsDefault == true).FirstOrDefault();
+
+            ShowPhotoButton = (SelectedIteration != null);
+
+            if (!ShowPhotoButton)
+            {
+                ResultsMessage = "You must train your first model";
+            }
 
             HideBusy();
         }
@@ -76,6 +85,27 @@ namespace CongnitiveEye.Forms.ViewModels
             set => SetProperty(ref isDirty, value);
         }
 
+        bool canTagUpload = false;
+        public bool CanTagUpload
+        {
+            get => canTagUpload;
+            set => SetProperty(ref canTagUpload, value);
+        }
+
+        bool showPic = false;
+        public bool ShowPic
+        {
+            get => showPic;
+            set => SetProperty(ref showPic, value);
+        }
+
+        bool showPhotoButton = false;
+        public bool ShowPhotoButton
+        {
+            get => showPhotoButton;
+            set => SetProperty(ref showPhotoButton, value);
+        }
+
         #endregion
 
         #region Commands
@@ -86,6 +116,8 @@ namespace CongnitiveEye.Forms.ViewModels
 
         private async Task ExecuteTestModel()
         {
+            CanTagUpload = false;
+
             ResultsMessage = "";
 
             await CrossMedia.Current.Initialize();
@@ -96,7 +128,7 @@ namespace CongnitiveEye.Forms.ViewModels
                 return;
             }
 
-            var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+            lastPhoto = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
             {
                 PhotoSize = Plugin.Media.Abstractions.PhotoSize.Medium,
                 SaveToAlbum = false,
@@ -104,13 +136,15 @@ namespace CongnitiveEye.Forms.ViewModels
                 Name = "test.jpg"
             });
 
-            if (file == null)
+            if (lastPhoto == null)
                 return;
+
+            ShowPic = true;
 
             SelectedImage = ImageSource.FromStream(() =>
             {
-                var stream = file.GetStream();
-                return stream;
+                var currentPhotoStream = lastPhoto.GetStream();
+                return currentPhotoStream;
             });
 
             Microsoft.Rest.HttpOperationResponse<ImagePredictionResult> result;
@@ -119,7 +153,7 @@ namespace CongnitiveEye.Forms.ViewModels
 
             try
             {
-                result = await App.AppTrainingApi.QuickTestImageWithHttpMessagesAsync(App.SelectedProject.Id, file.GetStream(), SelectedIteration.Id);
+                result = await App.AppTrainingApi.QuickTestImageWithHttpMessagesAsync(App.SelectedProject.Id, lastPhoto.GetStream(), SelectedIteration.Id);
             }
             catch (Microsoft.Rest.HttpOperationException ex)
             {
@@ -128,23 +162,30 @@ namespace CongnitiveEye.Forms.ViewModels
                 return;
             }
 
+            HideBusy();
+
             if (result.Response.IsSuccessStatusCode && result.Body?.Predictions != null && result.Body.Predictions.Count > 0)
             {
 
-                var positivePrediction = result.Body.Predictions
-                                               .OrderBy((arg) => arg.Probability)
-                                               .Where((arg) => arg.Probability > .55).OrderBy((arg) => arg.Probability)
-                                               .FirstOrDefault();
+                lastPrediction = result.Body.Predictions
+                                       .Where((arg) => arg.Probability > .20)
+                                       .OrderByDescending((arg) => arg.Probability)
+                                       .FirstOrDefault();
 
-                if (positivePrediction == null)
+                if (lastPrediction == null)
                 {
-                    ResultsMessage = "I have no idea what this is :(";
+                    ResultsMessage = "I have no idea what this is :(\nTag and make me smarter :)";
+                    CanTagUpload = true;
                 }
                 else
                 {
                     ResultsMessage = string.Format("I am {0}% confident this is a {1}",
-                                              Math.Round(result.Body.Predictions[0].Probability * 100).ToString(),
+                                                   Math.Round(lastPrediction.Probability * 100).ToString(),
                                               result.Body.Predictions[0].Tag);
+                    if (lastPrediction.Probability < .90)
+                    {
+                        CanTagUpload = true;
+                    }
                 }
 
             }
@@ -153,7 +194,6 @@ namespace CongnitiveEye.Forms.ViewModels
                 ResultsMessage = "Somthing went wront :(";
             }
 
-            HideBusy();
         }
 
         ICommand reTrain;
@@ -162,6 +202,8 @@ namespace CongnitiveEye.Forms.ViewModels
 
         private async Task ExecuteReTrain()
         {
+            CanTagUpload = false;
+
             Microsoft.Rest.HttpOperationResponse<Iteration> createResult = null;
 
             ResultsMessage = "";
@@ -199,6 +241,95 @@ namespace CongnitiveEye.Forms.ViewModels
             ResultsMessage = "New Model Trained!";
 
             HideBusy();
+
+        }
+
+        ICommand tagImage;
+        public ICommand TagImage =>
+            tagImage ?? (tagImage = new Command(async () => await ExecuteTagImage()));
+
+        private async Task ExecuteTagImage()
+        {
+
+            ShowBusy("Loading Tags...");
+
+            var tags = await App.AppTrainingApi.GetTagsWithHttpMessagesAsync(App.SelectedProject.Id);
+
+            HideBusy();
+
+            if (tags?.Body == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Failed to load tags", "OK");
+                return;
+            }
+
+            string[] listOfTags = null;
+
+            if (lastPrediction == null)
+            {
+                listOfTags = tags.Body.Tags.Select((arg) => arg.Name).ToArray<string>();
+            }
+            else
+            {
+                var confirmConfig = new ConfirmConfig()
+                {
+                    Title = "Confirm",
+                    OkText = "YES",
+                    CancelText = "NO",
+                    Message = "Was the prediction correct?"
+                };
+
+                var wasCorrect = await UserDialogs.Instance.ConfirmAsync(confirmConfig);
+
+                if (!wasCorrect)
+                {
+                    listOfTags = tags.Body.Tags
+                                     .Where((arg) => arg.Id != lastPrediction.TagId)
+                                     .Select((arg) => arg.Name).ToArray<string>();
+                }
+            }
+
+            Guid tagId;
+
+            if (listOfTags != null)
+            {
+
+                var tagSelected = await Application.Current.MainPage.DisplayActionSheet(
+                    "What type of project would you like to create ? ",
+                    "Cancel",
+                    null,
+                    listOfTags);
+
+                if (tagSelected == null)
+                    return;
+
+                var foundTag = tags.Body.Tags.Where((arg) => arg.Name == tagSelected).FirstOrDefault();
+
+                if (foundTag == null)
+                    return;
+
+                tagId = foundTag.Id;
+            }
+            else
+            {
+                tagId = lastPrediction.TagId;
+            }
+
+            ShowBusy("Uploading Image...");
+
+
+            List<string> TagIds = new List<string>();
+            TagIds.Add(tagId.ToString());
+
+            var result = await App.AppTrainingApi.CreateImagesFromDataWithHttpMessagesAsync(App.SelectedProject.Id, lastPhoto.GetStream(), TagIds);
+
+            HideBusy();
+
+            if (result.Response.IsSuccessStatusCode && result.Body?.Images != null && result.Body.Images.Count > 0)
+            {
+                ResultsMessage = "Image Tagged and Uploaded!";
+                CanTagUpload = false;
+            }
 
         }
 
