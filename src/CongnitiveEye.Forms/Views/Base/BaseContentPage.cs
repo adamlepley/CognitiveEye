@@ -30,6 +30,13 @@ namespace CongnitiveEye.Forms.Views
             ViewModel.OnAppearing();
 		}
 
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            ViewModel.OnDisappearing();
+        }
+
 	}
 }
 
