@@ -2,14 +2,14 @@
 using CongnitiveEye.Forms.Views;
 using CongnitiveEye.Forms.ViewModels;
 using DLToolkit.Forms.Controls;
-using Microsoft.Cognitive.CustomVision.Training.Models;
-using Microsoft.Cognitive.CustomVision.Training;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Distribute;
+using Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.Models;
+using Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training;
 
 namespace CognitiveEye.Forms
 {

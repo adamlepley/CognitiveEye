@@ -5,14 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CognitiveEye.Forms;
-using Microsoft.Cognitive.CustomVision.Training.Models;
+using Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.Models;
 using Xamarin.Forms;
 
 namespace CongnitiveEye.Forms.ViewModels
 {
     public class ProjectImageViewModel : BaseViewModel
     {
-        public ProjectImageViewModel(Microsoft.Cognitive.CustomVision.Training.Models.Image selectedImage)
+        public ProjectImageViewModel(Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.Models.Image selectedImage)
         {
             Title = "Computer Vision";
             SelectedImage = selectedImage;
@@ -31,7 +31,7 @@ namespace CongnitiveEye.Forms.ViewModels
 
             var tags = await App.AppTrainingApi.GetTagsWithHttpMessagesAsync(App.SelectedProject.Id);
 
-            Tags = new ObservableCollection<Tag>(tags.Body.Tags);
+            Tags = new ObservableCollection<Tag>(tags.Body);
 
             if (selectedImage?.Tags != null && selectedImage.Tags.Count > 0)
             {
@@ -50,8 +50,8 @@ namespace CongnitiveEye.Forms.ViewModels
 
         #region Bindable Props
 
-        Microsoft.Cognitive.CustomVision.Training.Models.Image selectedImage = null;
-        public Microsoft.Cognitive.CustomVision.Training.Models.Image SelectedImage
+        Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.Models.Image selectedImage = null;
+        public Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.Models.Image SelectedImage
         {
             get => selectedImage;
             set => SetProperty(ref selectedImage, value);
@@ -114,7 +114,7 @@ namespace CongnitiveEye.Forms.ViewModels
 
             ShowBusy("Updating Tag...");
 
-            await App.AppTrainingApi.PostImageTagsWithHttpMessagesAsync(App.SelectedProject.Id, new ImageTagCreateBatch(imageTags));
+            await App.AppTrainingApi.CreateImageTagsWithHttpMessagesAsync(App.SelectedProject.Id, new ImageTagCreateBatch(imageTags));
 
             HideBusy();
 

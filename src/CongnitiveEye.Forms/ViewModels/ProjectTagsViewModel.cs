@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
 using CognitiveEye.Forms;
-using Microsoft.Cognitive.CustomVision.Training.Models;
+using Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.Models;
 using Xamarin.Forms;
 
 namespace CongnitiveEye.Forms.ViewModels
@@ -30,7 +30,7 @@ namespace CongnitiveEye.Forms.ViewModels
 
             var tags = await App.AppTrainingApi.GetTagsWithHttpMessagesAsync(App.SelectedProject.Id);
 
-            Tags = new ObservableCollection<Tag>(tags.Body.Tags);
+            Tags = new ObservableCollection<Tag>(tags.Body);
 
             HideBusy();
         }

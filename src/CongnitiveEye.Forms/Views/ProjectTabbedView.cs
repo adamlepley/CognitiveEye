@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.Cognitive.CustomVision.Training.Models;
+using Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.Models;
 
 using Xamarin.Forms;
 

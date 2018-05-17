@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CognitiveEye.Forms;
-using Microsoft.Cognitive.CustomVision.Training.Models;
+using Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.Models;
 using Xamarin.Forms;
 
 namespace CongnitiveEye.Forms.ViewModels
@@ -52,7 +52,7 @@ namespace CongnitiveEye.Forms.ViewModels
             ShowBusy("Logging In...", Acr.UserDialogs.MaskType.Gradient);
 
             // Set the training key
-            App.AppTrainingApi = new Microsoft.Cognitive.CustomVision.Training.TrainingApi()
+            App.AppTrainingApi = new Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.TrainingApi()
             {
                 ApiKey = TrainingKey
             };
