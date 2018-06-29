@@ -25,7 +25,7 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0"
-                  ColumnSpacing="20"
+                  ColumnSpacing="0"
                   HorizontalOptions="Fill"
                   VerticalOptions="Center">
                 
@@ -48,14 +48,7 @@
                         HorizontalOptions="End"
                         VerticalOptions="Center" />
                 </Grid>
-                
-                <Button Grid.Column="1"
-                        WidthRequest="100"
-                        HeightRequest="45"
-                        BackgroundColor="{x:Static Util:ColorUtil.PrimaryColor}"
-                        TextColor="White"
-                        Text="Train"
-                        Command="{Binding ReTrain}" />
+
             </Grid>
 
             <Button Grid.Row="1"
@@ -68,14 +61,15 @@
             
             
             <Frame Grid.Row="2"
-                   BackgroundColor="{x:Static Util:ColorUtil.PrimaryColor}"
+                   BackgroundColor="{x:Static Util:ColorUtil.TileBackgroundColor}"
                    IsVisible="{Binding ShowPic}"
+                   CornerRadius="0"
                    Margin="0"
                    Padding="5">
 
                 <!--Project Image-->
                 <Grid
-                    BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}"
+                    BackgroundColor="{x:Static Util:ColorUtil.TileBorderColor}"
                     Padding="1">
                     
                     <Image
@@ -104,13 +98,14 @@
                 <Label  HorizontalOptions="Center"
                         Text="{Binding ResultsMessage}"
                         HorizontalTextAlignment="Center"
+                        TextColor="{x:Static Util:ColorUtil.PrimaryTextColor}"
                         FontSize="22"
                         FontAttributes="Bold"
                         LineBreakMode="WordWrap" />
 
                 <Button HeightRequest="45"
                         BackgroundColor="{x:Static Util:ColorUtil.ActionColor}"
-                        TextColor="White"
+                        TextColor="{x:Static Util:ColorUtil.PrimaryTextColor}"
                         Text="Tag and Upload Image"
                         Command="{Binding TagImage}"
                         IsVisible="{Binding CanTagUpload}"/>

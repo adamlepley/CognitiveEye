@@ -5,6 +5,7 @@ using CodeMill.VMFirstNav;
 using CognitiveEye.Forms;
 
 using Foundation;
+using Microsoft.AppCenter;
 using Plugin.DownloadManager;
 using UIKit;
 
