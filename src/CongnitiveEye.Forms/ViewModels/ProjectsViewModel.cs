@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
 using CognitiveEye.Forms;
-using Microsoft.Cognitive.CustomVision.Training.Models;
+using Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.Models;
 using Xamarin.Forms;
 
 namespace CongnitiveEye.Forms.ViewModels
@@ -106,7 +106,7 @@ namespace CongnitiveEye.Forms.ViewModels
         private async Task ExecuteAddProject()
         {
             // Ask for domain
-            var listOfDomains = Domains.Select((arg) => arg.Name).ToArray<string>();
+            var listOfDomains = Domains.Select((arg) => string.Format("{0} - {1}", arg.Name, arg.Type)).ToArray<string>();
 
             var domainSelected = await Application.Current.MainPage.DisplayActionSheet(
                 "What type of project would you like to create ? ",
@@ -117,7 +117,7 @@ namespace CongnitiveEye.Forms.ViewModels
             if (domainSelected == null)
                 return;
 
-            var foundDomain = Domains.Where((arg) => arg.Name == domainSelected).FirstOrDefault();
+            var foundDomain = Domains.Where((arg) => string.Format("{0} - {1}", arg.Name, arg.Type) == domainSelected).FirstOrDefault();
 
             if (foundDomain == null)
                 return;

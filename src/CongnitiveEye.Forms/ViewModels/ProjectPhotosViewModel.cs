@@ -4,7 +4,8 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CognitiveEye.Forms;
-using Microsoft.Cognitive.CustomVision.Training.Models;
+using CongnitiveEye.Forms.Models;
+using Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.Models;
 using Plugin.Media;
 using Xamarin.Forms;
 
@@ -12,7 +13,7 @@ namespace CongnitiveEye.Forms.ViewModels
 {
     public class ProjectPhotosViewModel : BaseViewModel
     {
-        public ProjectPhotosViewModel(Tag selectedTag)
+        public ProjectPhotosViewModel(TagTile selectedTag)
         {
             SelectedTag = selectedTag;
 
@@ -34,22 +35,22 @@ namespace CongnitiveEye.Forms.ViewModels
 
             var photos = await App.AppTrainingApi.GetTaggedImagesWithHttpMessagesAsync(App.SelectedProject.Id, null, new List<string>() { SelectedTag.Id.ToString() });
 
-            Images = new ObservableCollection<Microsoft.Cognitive.CustomVision.Training.Models.Image>(photos.Body);
+            Images = new ObservableCollection<Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.Models.Image>(photos.Body);
 
             HideBusy();
         }
 
         #region Bindable Props
 
-        Tag selectedTag = null;
-        public Tag SelectedTag
+        TagTile selectedTag = null;
+        public TagTile SelectedTag
         {
             get => selectedTag;
             set => SetProperty(ref selectedTag, value);
         }
 
-        ObservableCollection<Microsoft.Cognitive.CustomVision.Training.Models.Image> images = null;
-        public ObservableCollection<Microsoft.Cognitive.CustomVision.Training.Models.Image> Images
+        ObservableCollection<Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.Models.Image> images = null;
+        public ObservableCollection<Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.Models.Image> Images
         {
             get => images;
             set => SetProperty(ref images, value);
@@ -65,7 +66,7 @@ namespace CongnitiveEye.Forms.ViewModels
 
         private async Task ExecuteOpenTag(object selectedItem)
         {
-            var selectedImage = (selectedItem as Microsoft.Cognitive.CustomVision.Training.Models.Image);
+            var selectedImage = (selectedItem as Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.Models.Image);
 
             if (selectedImage == null) { return; }
 

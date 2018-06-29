@@ -6,6 +6,7 @@
     xmlns:Views="clr-namespace:CongnitiveEye.Forms.Views"
     xmlns:Util="clr-namespace:CongnitiveEye.Forms.Utilities"
     xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+    xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     x:Class="CongnitiveEye.Forms.Views.ProjectPhotosView" >
 
     <ContentPage.ToolbarItems>
@@ -15,8 +16,10 @@
     <ContentPage.Content>
         <Grid>
             <flv:FlowListView
-                BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}"
+                Margin="10"
+                BackgroundColor="Transparent"
                 FlowColumnCount="3"
+                RowHeight="122"
                 FlowItemsSource="{Binding Images}"
                 FlowItemTappedCommand="{Binding OpenImage}"
                 HasUnevenRows="true">
@@ -24,19 +27,20 @@
                 <flv:FlowListView.FlowColumnTemplate>
                     <DataTemplate>
                         
-                        <Frame
-                            BackgroundColor="{x:Static Util:ColorUtil.PrimaryColor}"
+                        <ContentView
                             Margin="10"
-                            Padding="5">
+                            ControlTemplate="{x:Static Util:Templates.TileTemplate}">
                             
                             <StackLayout>
 
                                 <!--Project Image-->
                                 <Grid
-                                    BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}"
+                                    BackgroundColor="{x:Static Util:ColorUtil.TileBackgroundColor}"
                                     Padding="1">
                                     
-                                    <Image
+                                    <ffimage:CachedImage
+                                        FadeAnimationEnabled="true"
+                                        DownsampleToViewSize="true"
                                         VerticalOptions="Fill"
                                         BackgroundColor="Black"
                                         HeightRequest="100"
@@ -60,7 +64,7 @@
                                     
                                
                             </StackLayout>
-                        </Frame>
+                        </ContentView>
                     </DataTemplate>
                 </flv:FlowListView.FlowColumnTemplate>
             </flv:FlowListView>

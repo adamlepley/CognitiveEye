@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Views:BaseContentPage x:TypeArguments="VMs:DeviceVisionViewModel"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:VMs="clr-namespace:CongnitiveEye.Forms.ViewModels"
+    xmlns:Views="clr-namespace:CongnitiveEye.Forms.Views"
+    xmlns:Util="clr-namespace:CongnitiveEye.Forms.Utilities"
+    xmlns:Renderers="clr-namespace:CongnitiveEye.Forms.Renderers"
+    xmlns:repeater="clr-namespace:Xamarin.CustomControls;assembly=Xamarin.CustomControls.RepeaterView"
+    x:Class="CongnitiveEye.Forms.Views.DeviceVisionView"
+    BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}" >
+    
+    <ContentPage.Content>
+        <Grid
+            BackgroundColor="{x:Static Util:ColorUtil.TileBackgroundColor}"
+            Padding="0" >
+
+            <!--Camera Output-->
+                   
+            <Renderers:CameraView
+                x:Name="Cam"
+                DeviceOptions="Rear"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                Margin="0"/>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+            </Grid>
+
+            <Frame
+                CornerRadius="0"
+                Margin="0"
+                Padding="0"
+                HorizontalOptions="Fill"
+                BackgroundColor="{x:Static Util:ColorUtil.TileBackgroundColor}"
+                VerticalOptions="Start"
+                HeightRequest="80">
+                
+                <Grid
+                    VerticalOptions="Fill">
+                    
+                     <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Close}" />
+                    </Grid.GestureRecognizers>
+                    
+                    <Label
+                        Text="Close"
+                        VerticalOptions="End"
+                        Margin="20,10"
+                        HorizontalOptions="End"
+                        TextColor="{x:Static Util:ColorUtil.PrimaryTextColor}"
+                        FontSize="16"
+                        FontAttributes="Bold">
+                     
+                    </Label>
+
+                    
+                </Grid>
+                    
+            </Frame>
+
+            <repeater:RepeaterView
+                Margin="20,100"
+                IsVisible="{Binding ShowStop}"
+                ItemsSource="{Binding ResultEntries}"
+                BackgroundColor="Transparent"
+                ShowSeparator="false"
+                VerticalOptions="Start"
+                HorizontalOptions="Start">
+                <repeater:RepeaterView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid BackgroundColor="{Binding BackgroundColor}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label TextColor="{Binding TextColor}" FontSize="{Binding TextSize}" Text="{Binding Name,StringFormat='{0}:'}"/>
+                            <Label TextColor="{Binding TextColor}" FontSize="{Binding TextSize}" Grid.Column="1" Text="{Binding ValueText}" />
+                        </Grid>
+                    </DataTemplate>
+                </repeater:RepeaterView.ItemTemplate>
+            </repeater:RepeaterView>
+
+            <ContentView
+                VerticalOptions="End"
+                HorizontalOptions="Fill"
+                Margin="0"
+                ControlTemplate="{x:Static Util:Templates.GutterTemplate}" >
+                <Grid>
+
+                    <Button
+                        Margin="20, 10"
+                        HeightRequest="45"
+                        BackgroundColor="{x:Static Util:ColorUtil.TrainButtonColor}"
+                        TextColor="White"
+                        Text="Start Core ML Image Classifier"
+                        Clicked="StartClassifier"
+                        IsVisible="{Binding ShowStart}"/>
+
+                    <Button
+                        Margin="20, 10"
+                        HeightRequest="45"
+                        BackgroundColor="{x:Static Util:ColorUtil.DeleteButtonColor}"
+                        TextColor="White"
+                        Text="Stop Core ML Image Classifier"
+                        Command="{Binding StopClassifier}"
+                        IsVisible="{Binding ShowStop}"/>
+
+                </Grid>
+
+            </ContentView>
+
+            <!--<Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0"
+                      ColumnSpacing="20"
+                      HorizontalOptions="Fill"
+                      VerticalOptions="Center">
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid>
+                        <Picker HeightRequest="45"
+                                HorizontalOptions="Fill"
+                                ItemsSource="{Binding Iterations}"
+                                ItemDisplayBinding="{Binding Name}"
+                                SelectedItem="{Binding SelectedIteration}"/>
+                        <Image
+                            Margin="15,0"
+                            WidthRequest="20"
+                            InputTransparent="true"
+                            Source="chevron_down.png"  
+                            HorizontalOptions="End"
+                            VerticalOptions="Center" />
+                    </Grid>
+
+                </Grid>
+
+                <Button Grid.Row="1"
+                        HeightRequest="45"
+                        BackgroundColor="{x:Static Util:ColorUtil.StartColor}"
+                        TextColor="White"
+                        Text="Start Core ML Image Classifier"
+                        Clicked="StartClassifier"
+                        IsVisible="{Binding ShowStart}"/>
+
+                <Button Grid.Row="1"
+                        HeightRequest="45"
+                        BackgroundColor="{x:Static Util:ColorUtil.AlertColor}"
+                        TextColor="White"
+                        Text="Stop Core ML Image Classifier"
+                        Command="{Binding StopClassifier}"
+                        IsVisible="{Binding ShowStop}"/>
+                
+                
+               
+               
+
+                <ListView BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}" Grid.Row="3" RowHeight="30" HorizontalOptions="Fill" VerticalOptions="Fill" ItemsSource="{Binding ResultEntries}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell Height="30">
+                                <Grid BackgroundColor="{Binding BackgroundColor}" VerticalOptions="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="{Binding Name}" FontSize="14" />
+                                    <Label Grid.Column="1" Text="{Binding ValueText}" FontSize="16" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    
+                </ListView>
+            </Grid>-->
+
+               
+        </Grid>
+    </ContentPage.Content>
+    
+</Views:BaseContentPage>

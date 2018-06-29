@@ -4,6 +4,7 @@
     xmlns:VMs="clr-namespace:CongnitiveEye.Forms.ViewModels"
     xmlns:Views="clr-namespace:CongnitiveEye.Forms.Views"
     xmlns:Util="clr-namespace:CongnitiveEye.Forms.Utilities"
+    xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="CongnitiveEye.Forms.Views.ProjectImageView"
     BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}" >
@@ -12,63 +13,78 @@
         <Grid>
             
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            
-            <Frame Grid.Row="0"
-                BackgroundColor="{x:Static Util:ColorUtil.PrimaryColor}"
-                Margin="20"
-                Padding="10">
 
-                <!--Project Image-->
+            <!--Gutter-->
+            <ContentView
+                Grid.Row="0"
+                ControlTemplate="{x:Static Util:Templates.GutterTemplate}" >
+
+                <Grid Grid.Row="0"
+                  Margin="20"
+                  ColumnSpacing="20"
+                  HorizontalOptions="Fill"
+                  VerticalOptions="Center">
+                
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid>
+                         <Picker
+                            HeightRequest="45"
+                            Title="Tag"
+                            ItemsSource="{Binding Tags}"
+                            ItemDisplayBinding="{Binding Name}"
+                            Unfocused="TagPicker_Unfocused"
+                            SelectedItem="{Binding SelectedTag}"/>
+                        <Image
+                            Margin="15,0"
+                            WidthRequest="20"
+                            InputTransparent="true"
+                            Source="chevron_down.png"  
+                            HorizontalOptions="End"
+                            VerticalOptions="Center" />
+                    </Grid>
+                    
+                    <Button
+                        Grid.Column="1"
+                        HeightRequest="45"
+                        WidthRequest="100"
+                        BackgroundColor="{x:Static Util:ColorUtil.DeleteButtonColor}"
+                        TextColor="White"
+                        Text="Remove"
+                        Command="{Binding RemoveImage}" />
+                    
+                </Grid>
+            </ContentView>
+            
+            <ContentView
+                Grid.Row="1"
+                ControlTemplate="{x:Static Util:Templates.TileTemplate}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Margin="20">
+
+                <!--Image-->
                 <Grid
-                    BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}"
+                    BackgroundColor="{x:Static Util:ColorUtil.TileBorderColor}"
                     Padding="1">
-                    <Image
+                    <ffimage:CachedImage
+                        FadeAnimationEnabled="true"
                         VerticalOptions="Fill"
                         BackgroundColor="Black"
-                        HeightRequest="100"
-                        Aspect="AspectFill"
+                        Aspect="AspectFit"
                         Source="{Binding SelectedImage.ImageUri}" />
                     
                 </Grid>
                
-            </Frame>
+            </ContentView>
 
-            <Grid Grid.Row="1"
-                Margin="20,0"
-                HorizontalOptions="Fill"
-                VerticalOptions="Center">
-                
-                <Picker
-                    HeightRequest="45"
-                    Title="Tag"
-                    WidthRequest="200"
-                    ItemsSource="{Binding Tags}"
-                    ItemDisplayBinding="{Binding Name}"
-                    Unfocused="TagPicker_Unfocused"
-                    SelectedItem="{Binding SelectedTag}"/>
-                
-                <Image
-                    Margin="15,0"
-                    WidthRequest="20"
-                    InputTransparent="true"
-                    Source="chevron_down.png"  
-                    HorizontalOptions="End"
-                    VerticalOptions="Center" />
-               
-            </Grid>
-
-            <Button
-                HeightRequest="45"
-                BackgroundColor="{x:Static Util:ColorUtil.AlertColor}"
-                Grid.Row="2"
-                Margin="20, 0, 20, 30"
-                TextColor="White"
-                Text="Remove Picture"
-                Command="{Binding RemoveImage}" />
+         
         </Grid>
 
     </ContentPage.Content>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
 using CognitiveEye.Forms;
-using Microsoft.Cognitive.CustomVision.Training.Models;
+using Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.Models;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using Xamarin.Forms;
@@ -16,8 +16,12 @@ namespace CongnitiveEye.Forms.ViewModels
 {
     public class ProjectIterationsViewModel : BaseViewModel
     {
+        
+        public EventHandler<Prediction> PredictionMade { get; set; }
+
         private MediaFile lastPhoto;
-        private ImageTagPrediction lastPrediction;
+
+        public Prediction lastPrediction;
 
 
         public ProjectIterationsViewModel()
@@ -32,7 +36,7 @@ namespace CongnitiveEye.Forms.ViewModels
 
             var iterations = await App.AppTrainingApi.GetIterationsWithHttpMessagesAsync(App.SelectedProject.Id);
 
-            if (iterations.Body == null || iterations.Body.Count == 0) { return; }
+            HideBusy();
 
             Iterations = new ObservableCollection<Iteration>(iterations.Body.Where((arg) => arg.Status == "Completed").OrderByDescending((arg) => arg.TrainedAt));
 
@@ -45,7 +49,6 @@ namespace CongnitiveEye.Forms.ViewModels
                 ResultsMessage = "You must train your first model";
             }
 
-            HideBusy();
         }
 
         #region Bindable Props
@@ -147,7 +150,7 @@ namespace CongnitiveEye.Forms.ViewModels
                 return currentPhotoStream;
             });
 
-            Microsoft.Rest.HttpOperationResponse<ImagePredictionResult> result;
+            Microsoft.Rest.HttpOperationResponse<ImagePrediction> result;
 
             ShowBusy("Predicting...", Acr.UserDialogs.MaskType.Gradient);
 
@@ -181,7 +184,10 @@ namespace CongnitiveEye.Forms.ViewModels
                 {
                     ResultsMessage = string.Format("I am {0}% confident this is a {1}",
                                                    Math.Round(lastPrediction.Probability * 100).ToString(),
-                                              result.Body.Predictions[0].Tag);
+                                              result.Body.Predictions[0].TagName);
+
+                    PredictionMade.Invoke(null, result.Body.Predictions[0]);
+                    
                     if (lastPrediction.Probability < .90)
                     {
                         CanTagUpload = true;
@@ -240,6 +246,8 @@ namespace CongnitiveEye.Forms.ViewModels
 
             ResultsMessage = "New Model Trained!";
 
+            ShowPhotoButton = true;
+
             HideBusy();
 
         }
@@ -267,7 +275,7 @@ namespace CongnitiveEye.Forms.ViewModels
 
             if (lastPrediction == null)
             {
-                listOfTags = tags.Body.Tags.Select((arg) => arg.Name).ToArray<string>();
+                listOfTags = tags.Body.Select((arg) => arg.Name).ToArray<string>();
             }
             else
             {
@@ -283,7 +291,7 @@ namespace CongnitiveEye.Forms.ViewModels
 
                 if (!wasCorrect)
                 {
-                    listOfTags = tags.Body.Tags
+                    listOfTags = tags.Body
                                      .Where((arg) => arg.Id != lastPrediction.TagId)
                                      .Select((arg) => arg.Name).ToArray<string>();
                 }
@@ -303,7 +311,7 @@ namespace CongnitiveEye.Forms.ViewModels
                 if (tagSelected == null)
                     return;
 
-                var foundTag = tags.Body.Tags.Where((arg) => arg.Name == tagSelected).FirstOrDefault();
+                var foundTag = tags.Body.Where((arg) => arg.Name == tagSelected).FirstOrDefault();
 
                 if (foundTag == null)
                     return;
