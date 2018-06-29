@@ -16,6 +16,9 @@ namespace CongnitiveEye.Forms.ViewModels
 {
     public class ProjectIterationsViewModel : BaseViewModel
     {
+        
+        public EventHandler<Prediction> PredictionMade { get; set; }
+
         private MediaFile lastPhoto;
 
         public Prediction lastPrediction;
@@ -182,6 +185,8 @@ namespace CongnitiveEye.Forms.ViewModels
                     ResultsMessage = string.Format("I am {0}% confident this is a {1}",
                                                    Math.Round(lastPrediction.Probability * 100).ToString(),
                                               result.Body.Predictions[0].TagName);
+
+                    PredictionMade.Invoke(null, result.Body.Predictions[0]);
                     
                     if (lastPrediction.Probability < .90)
                     {

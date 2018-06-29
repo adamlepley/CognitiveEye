@@ -8,49 +8,56 @@
     x:Class="CongnitiveEye.Forms.Views.ProjectMenuView"
     BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}">
     <ContentPage.Content>
-        <Grid Margin="20" RowSpacing="20">
+        <Grid Margin="20" RowSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             
-            <Frame Grid.Row="0"
-                   VerticalOptions="Center"
-                   BackgroundColor="{x:Static Util:ColorUtil.PrimaryColor}">
-                <Frame.GestureRecognizers>
+            <ContentView
+                Grid.Row="1"
+                ControlTemplate="{x:Static Util:Templates.TileTemplate}" >
+                
+                <ContentView.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding SelectTrain}" />
-                </Frame.GestureRecognizers>
+                </ContentView.GestureRecognizers>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    
+
                      <Image Grid.Column="0"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"
                             Aspect="AspectFit"
-                            WidthRequest="100"
-                            HeightRequest="100"
+                            WidthRequest="80"
+                            HeightRequest="80"
+                            Margin="0,10"
                             Source="training.png" />
 
                     <Label Grid.Column="1"
                            FontSize="40"
                            FontAttributes="Bold"
                            Text="Train"
-                           TextColor="White"
+                           TextColor="{x:Static Util:ColorUtil.PrimaryTextColor}"
                            VerticalOptions="Center"
                            HorizontalOptions="Center"
-                           HorizontalTextAlignment="End"
+                           HorizontalTextAlignment="Center"
                            VerticalTextAlignment="Center" />
                            
                 </Grid>
-            </Frame>
+            </ContentView>
             
-             <Frame Grid.Row="1"
-                    VerticalOptions="Center"
-                    BackgroundColor="{x:Static Util:ColorUtil.PrimaryColor}">
+             <ContentView
+                Grid.Row="3"
+                ControlTemplate="{x:Static Util:Templates.TileTemplate}" >
+                
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding SelectCloudVision}" />
                 </Frame.GestureRecognizers>
@@ -72,20 +79,23 @@
                            FontSize="40"
                            FontAttributes="Bold"
                            Text="Cloud Vision"
-                           TextColor="White"
+                           TextColor="{x:Static Util:ColorUtil.PrimaryTextColor}"
                            LineBreakMode="WordWrap"
                            VerticalOptions="Center"
                            HorizontalOptions="Center"
-                           HorizontalTextAlignment="End"
+                           HorizontalTextAlignment="Center"
                            VerticalTextAlignment="Center" />
                            
                 </Grid>
                 
-            </Frame>
+            </ContentView>
             
-             <Frame Grid.Row="2"
-                    VerticalOptions="Center"
-                    BackgroundColor="{x:Static Util:ColorUtil.PrimaryColor}">
+             <ContentView
+                Grid.Row="5"
+                ControlTemplate="{x:Static Util:Templates.TileTemplate}" >
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectDeviceVision}" />
+                </Frame.GestureRecognizers>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -98,7 +108,6 @@
                             Aspect="AspectFit"
                             WidthRequest="80"
                             HeightRequest="80"
-                            Opacity=".5"
                             Source="device.png" />
 
                     <Label Grid.Column="1"
@@ -106,27 +115,16 @@
                            FontAttributes="Bold"
                            Text="Device Vision"
                            LineBreakMode="WordWrap"
-                           TextColor="White"
+                           TextColor="{x:Static Util:ColorUtil.PrimaryTextColor}"
                            VerticalOptions="Center"
                            HorizontalOptions="Center"
-                           HorizontalTextAlignment="End"
-                           Opacity=".5"
+                           HorizontalTextAlignment="Center"
                            VerticalTextAlignment="Center" />
 
-                    <Label Grid.ColumnSpan="2"
-                           VerticalOptions="Center"
-                           HorizontalOptions="Center"
-                           FontSize="40"
-                           Rotation="-22.5"
-                           Text="Coming Soon"
-                           FontAttributes="Italic"
-                           TextColor="White"
-                           />
-                           
                 </Grid>
                 
                 
-            </Frame>
+            </ContentView>
             
         </Grid>
     </ContentPage.Content>

@@ -4,8 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:VMs="clr-namespace:CongnitiveEye.Forms.ViewModels"
     xmlns:Views="clr-namespace:CongnitiveEye.Forms.Views"
-    xmlns:Util="clr-namespace:CongnitiveEye.Forms.Utilities"                      
+    xmlns:Util="clr-namespace:CongnitiveEye.Forms.Utilities"
     xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+    xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     x:Class="CongnitiveEye.Forms.Views.ProjectsView"
     BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}">
     
@@ -15,27 +16,28 @@
     
     <ContentPage.Content>
         <flv:FlowListView
-            BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}"
+            Margin="10"
             FlowColumnCount="2"
             FlowItemsSource="{Binding Projects}"
             FlowItemTappedCommand="{Binding OpenProject}"
+            BackgroundColor="Transparent"
             HasUnevenRows="true">
 
             <flv:FlowListView.FlowColumnTemplate>
                 <DataTemplate>
-                    
-                    <Frame
-                        BackgroundColor="{x:Static Util:ColorUtil.PrimaryColor}"
+                    <ContentView
                         Margin="10"
-                        Padding="5">
-                        
-                        <StackLayout>
+                        ControlTemplate="{x:Static Util:Templates.TileTemplate}">
+                            
+                        <StackLayout Margin="5">
 
                             <!--Project Image-->
                             <Grid
-                                BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}"
+                                BackgroundColor="{x:Static Util:ColorUtil.TileBorderColor}"
                                 Padding="1">
-                                <Image
+                                <ffimage:CachedImage
+                                    FadeAnimationEnabled="true"
+                                    DownsampleToViewSize="true"
                                     VerticalOptions="Fill"
                                     BackgroundColor="Black"
                                     HeightRequest="100"
@@ -43,11 +45,10 @@
                                     Source="{Binding ThumbnailUri}" />
                                 
                             </Grid>
-
                            
                             <!--Project Name & Description-->
                             <Label
-                                TextColor="White"
+                                TextColor="{x:Static Util:ColorUtil.PrimaryTextColor}"
                                 Text="{Binding Name}"
                                 FontSize="16"
                                 FontAttributes="Bold"/>
@@ -55,12 +56,11 @@
                             <Label
                                 Text="{Binding Description}"
                                 FontSize="12"
-                                TextColor="{x:Static Util:ColorUtil.SecondaryColor}"
+                                TextColor="{x:Static Util:ColorUtil.SecondaryTextColor}"
                                 LineBreakMode="WordWrap"/>
-                                
-                           
+
                         </StackLayout>
-                    </Frame>
+                    </ContentView>
                 </DataTemplate>
             </flv:FlowListView.FlowColumnTemplate>
         </flv:FlowListView>

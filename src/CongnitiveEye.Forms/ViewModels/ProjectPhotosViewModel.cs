@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CognitiveEye.Forms;
+using CongnitiveEye.Forms.Models;
 using Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.Models;
 using Plugin.Media;
 using Xamarin.Forms;
@@ -12,7 +13,7 @@ namespace CongnitiveEye.Forms.ViewModels
 {
     public class ProjectPhotosViewModel : BaseViewModel
     {
-        public ProjectPhotosViewModel(Tag selectedTag)
+        public ProjectPhotosViewModel(TagTile selectedTag)
         {
             SelectedTag = selectedTag;
 
@@ -41,8 +42,8 @@ namespace CongnitiveEye.Forms.ViewModels
 
         #region Bindable Props
 
-        Tag selectedTag = null;
-        public Tag SelectedTag
+        TagTile selectedTag = null;
+        public TagTile SelectedTag
         {
             get => selectedTag;
             set => SetProperty(ref selectedTag, value);

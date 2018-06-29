@@ -18,18 +18,25 @@ namespace CongnitiveEye.Forms.ViewModels
         public BaseViewModel()
         {
             NavService = NavigationService.Instance;
+            HideBusy();
         }
 
         public void ShowBusy(string title = null, MaskType maskType = MaskType.None)
         {
-            IsBusy = true;
-            UserDialogs.Instance.ShowLoading(title, maskType);
+            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            {
+                IsBusy = true;
+                UserDialogs.Instance.ShowLoading(title, maskType);
+            });
         }
 
         public void HideBusy()
         {
-            IsBusy = false;
-            UserDialogs.Instance.HideLoading();
+            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            {
+                IsBusy = false;
+                UserDialogs.Instance.HideLoading();
+            });
         }
 
         #region Common Props
@@ -60,6 +67,13 @@ namespace CongnitiveEye.Forms.ViewModels
         {
             get => isBusy;
             private set => SetProperty(ref isBusy, value);
+        }
+
+        bool usePageTemplate = true;
+        public bool UsePageTemplate
+        {
+            get => usePageTemplate;
+            set => SetProperty(ref usePageTemplate, value);
         }
 
         #endregion

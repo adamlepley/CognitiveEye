@@ -4,6 +4,7 @@
     xmlns:VMs="clr-namespace:CongnitiveEye.Forms.ViewModels"
     xmlns:Views="clr-namespace:CongnitiveEye.Forms.Views"
     xmlns:Util="clr-namespace:CongnitiveEye.Forms.Utilities"
+    xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="CongnitiveEye.Forms.Views.ProjectIterationsView"
     BackgroundColor="{x:Static Util:ColorUtil.SecondaryColor}">
@@ -61,7 +62,7 @@
                     HeightRequest="45"
                     BackgroundColor="{x:Static Util:ColorUtil.AccentColor}"
                     TextColor="White"
-                    Text="Take a Pic!"
+                    Text="Test the Model, Take a Pic!"
                     IsVisible="{Binding ShowPhotoButton}"
                     Command="{Binding TestModel}" />
             
@@ -83,6 +84,12 @@
                         HeightRequest="100"
                         Aspect="AspectFill"
                         Source="{Binding SelectedImage}" />
+                    
+                        <skia:SKCanvasView
+                            x:Name="BoundingBox"
+                            VerticalOptions="Fill"
+                            HorizontalOptions="Fill"
+                            PaintSurface="BoundingBox_PaintSurface"/>
                     
                 </Grid>
                

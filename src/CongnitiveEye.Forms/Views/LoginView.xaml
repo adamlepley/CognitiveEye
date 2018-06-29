@@ -22,7 +22,7 @@
                 <Label
                     Text="Cognitive Eye"
                     Margin="0"
-                    TextColor="{x:Static Util:ColorUtil.PrimaryColor}"
+                    TextColor="White"
                     VerticalTextAlignment="Center"
                     HorizontalTextAlignment="Center"
                     FontSize="40"
@@ -43,12 +43,12 @@
                     Placeholder="Prediction Key"
                     Text="{Binding PredictionKey}" />-->
                 
-                <Button Text="Let The Training Begin..." BackgroundColor="{x:Static Util:ColorUtil.PrimaryColor}" TextColor="White" Command="{Binding LoginCommand}" />
+                <Button Text="Let The Training Begin..." BackgroundColor="{x:Static Util:ColorUtil.LoginButtonColor}" TextColor="White" Command="{Binding LoginCommand}" />
                 
             </StackLayout>
 
             <StackLayout Grid.Row="2" VerticalOptions="End" Margin="20" >
-                <Label HorizontalOptions="Center" TextColor="{x:Static Util:ColorUtil.PrimaryColor}" Text="Powered By Microsoft Azure" />
+                <Label HorizontalOptions="Center" TextColor="{x:Static Util:ColorUtil.SecondaryTextColor}" Text="Powered By Microsoft Azure" />
                 <Button VerticalOptions="Center" HeightRequest="20" Text="Custom Vision Service" />
             </StackLayout>
             
