@@ -19,6 +19,8 @@ namespace CongnitiveEye.Forms.ViewModels
 {
     public class DeviceVisionViewModel : BaseViewModel
     {
+
+        public TimeSpan VisionClassifierInterval = new TimeSpan(0, 0, 0, 1, 0);
         
         public DeviceVisionViewModel()
         {
@@ -41,17 +43,19 @@ namespace CongnitiveEye.Forms.ViewModels
             try
             {
 
-                var iterations = await App.AppTrainingApi.GetIterationsWithHttpMessagesAsync(App.SelectedProject.Id);
+                var iterationsResults = await App.AppTrainingApi.GetIterationsWithHttpMessagesAsync(App.SelectedProject.Id);
 
-                Iterations = new ObservableCollection<Iteration>(iterations.Body.Where((arg) => arg.Status == "Completed").OrderByDescending((arg) => arg.TrainedAt));
+                Iterations = new ObservableCollection<Iteration>(iterationsResults.Body.Where((arg) => arg.Status == "Completed").OrderByDescending((arg) => arg.TrainedAt));
 
                 SelectedIteration = Iterations.Where((arg) => arg.IsDefault == true).FirstOrDefault();
 
                 ResultEntries = new ObservableCollection<TagPredicitionResult>();
 
-                var tags = await App.AppTrainingApi.GetTagsWithHttpMessagesAsync(App.SelectedProject.Id);
+                var tagsResults = await App.AppTrainingApi.GetTagsWithHttpMessagesAsync(App.SelectedProject.Id);
 
-                foreach (var tag in tags.Body.OrderBy((arg) => arg.Name))
+                Tags = new ObservableCollection<Tag>(tagsResults.Body);
+
+                foreach (var tag in Tags.OrderBy((arg) => arg.Name))
                 {
                     ResultEntries.Add(new TagPredicitionResult(tag.Name));
                 }
@@ -78,6 +82,44 @@ namespace CongnitiveEye.Forms.ViewModels
 
         }
 
+        public async Task TagPhoto(Stream imageStream)
+        {
+            var listOfTags = Tags.Select((arg) => arg.Name).ToArray<string>();
+
+            var tagSelected = await Application.Current.MainPage.DisplayActionSheet(
+                    "Select a Tag",
+                    "Cancel",
+                    null,
+                    listOfTags);
+            
+            if (tagSelected == null)
+                return;
+
+            var foundTag = Tags.Where((arg) => arg.Name == tagSelected).FirstOrDefault();
+
+            if (foundTag == null)
+                return;
+
+            var tagId = foundTag.Id;
+
+            ShowBusy("Uploading Image...");
+
+            List<string> TagIds = new List<string>();
+            TagIds.Add(tagId.ToString());
+
+            var result = await App.AppTrainingApi.CreateImagesFromDataWithHttpMessagesAsync(App.SelectedProject.Id, imageStream, TagIds);
+
+            HideBusy();
+
+            if (result.Response.IsSuccessStatusCode && result.Body?.Images != null && result.Body.Images.Count > 0)
+            {
+                ResultsMessage = "Image Tagged and Uploaded!";
+                CanTagUpload = false;
+            }
+
+        }
+
+
         #region Bindable Props
 
         ImageSource selectedImage = null;
@@ -92,6 +134,13 @@ namespace CongnitiveEye.Forms.ViewModels
         {
             get => iterations;
             set => SetProperty(ref iterations, value);
+        }
+
+        ObservableCollection<Tag> tags = null;
+        public ObservableCollection<Tag> Tags
+        {
+            get => tags;
+            set => SetProperty(ref tags, value);
         }
 
         ObservableCollection<TagPredicitionResult> resultEntries = new ObservableCollection<TagPredicitionResult>();
@@ -148,6 +197,20 @@ namespace CongnitiveEye.Forms.ViewModels
         {
             get => imageClassifierRunning;
             set => SetProperty(ref imageClassifierRunning, value);
+        }
+
+        bool imageClassifierStopped = true;
+        public bool ImageClassifierStopped
+        {
+            get => imageClassifierStopped;
+            set => SetProperty(ref imageClassifierStopped, value);
+        }
+
+        bool tagging = false;
+        public bool Tagging
+        {
+            get => tagging;
+            set => SetProperty(ref tagging, value);
         }
 
         bool showPhotoButton = false;

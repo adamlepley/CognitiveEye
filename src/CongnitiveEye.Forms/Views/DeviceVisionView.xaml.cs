@@ -6,6 +6,7 @@ using CongnitiveEye.Forms.ViewModels;
 using Microcharts;
 using Xamarin.Forms;
 using System.Linq;
+using CongnitiveEye.Forms.Utilities;
 
 namespace CongnitiveEye.Forms.Views
 {
@@ -28,12 +29,7 @@ namespace CongnitiveEye.Forms.Views
         {
             base.OnAppearing();
 
-            //Chart.Chart = new BarChart()
-            //{
-            //    IsAnimated = false,
-            //    Entries = ViewModel.ResultEntries,
-            //    LabelTextSize = 20f,
-            //};
+
         }
 
         void StartClassifier(object sender, System.EventArgs e)
@@ -42,9 +38,18 @@ namespace CongnitiveEye.Forms.Views
             StartImageClassifier().ConfigureAwait(false);
         }
 
-        async Task StartImageClassifier()
+        async Task TagImage(object sender, System.EventArgs e)
         {
-            while (ViewModel.ImageClassifierRunning)
+            ViewModel.Tagging = true;
+
+            ViewModel.ImageClassifierRunning = false;
+
+            while (!ViewModel.ImageClassifierStopped)
+            {
+                await Task.Delay(200);
+            }
+
+            Device.BeginInvokeOnMainThread(async () =>
             {
                 Stream stream = await Cam.TakePhoto(new Renderers.CropRatios()
                 {
@@ -54,8 +59,31 @@ namespace CongnitiveEye.Forms.Views
                     RightRatio = 1
                 });
 
+                await ViewModel.TagPhoto(stream);
+
+                ViewModel.Tagging = false;
+
+                StartClassifier(null, null);
+            });
+
+        }
+
+        async Task StartImageClassifier()
+        {
+            while (ViewModel.ImageClassifierRunning)
+            {
+                ViewModel.ImageClassifierStopped = false;
+
+                Stream stream = await Cam.TakePhoto(new Renderers.CropRatios()
+                {
+                    BottomRatio = 1,
+                    TopRatio = 1,
+                    LeftRatio = 1,
+                    RightRatio = 1
+                });
+
                 var resultSet = await ImageClassifier.ClassifyImage(stream);
-          
+
                 foreach (var result in resultSet.OrderBy((arg) => arg.Tag))
                 {
                     var foundResultValue = ViewModel.ResultEntries.Where((arg) => arg.Name == result.Tag).FirstOrDefault();
@@ -63,19 +91,12 @@ namespace CongnitiveEye.Forms.Views
                     if (foundResultValue != null)
                         foundResultValue.SetTagValue(result.Probability);
 
-                    //ViewModel.ResultEntries.Add(new Microcharts.Entry((float)result.Probability)
-                    //{
-                    //    Label = result.Tag,
-                    //    ValueLabel = Math.Round(result.Probability * 100).ToString() + "%"
-                    //});
-
                 }
 
-                //Chart.Chart.Entries = ViewModel.ResultEntries;
-
-                await Task.Delay(1000); // arbitrary delay
-
+                await Task.Delay(ViewModel.VisionClassifierInterval); // arbitrary delay
             }
+
+            ViewModel.ImageClassifierStopped = true;
         }
     }
 }

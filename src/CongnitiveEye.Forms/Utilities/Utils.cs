@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using CongnitiveEye.Forms.ControlTemplates;
 using Xamarin.Forms;
 
@@ -31,6 +32,7 @@ namespace CongnitiveEye.Forms.Utilities
         public static Color DeleteButtonColor = Color.FromHex("#fd7258");
         public static Color TrainButtonColor = Color.FromHex("#42c2a7");
         public static Color LoginButtonColor = Color.FromHex("#376c80");
+        public static Color TagButtonColor = Color.FromHex("#739ec6");
 
         // Vision
         public static Color PositiveResultBackgroundColor = Color.Transparent;
@@ -54,6 +56,20 @@ namespace CongnitiveEye.Forms.Utilities
     {
         public static ControlTemplate TileTemplate = new ControlTemplate(typeof(TileTemplate));
         public static ControlTemplate GutterTemplate = new ControlTemplate(typeof(GutterTemplate));
+    }
+
+    // Ya, it's ok to have a JunkDrawerUtils class. Where else do I put this stuff?
+    // At least I'm bold enought to name accordently ;)
+    public static class JunkDrawerUtils
+    {
+        public static byte[] StreamToBtyes(Stream input)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                input.CopyTo(ms);
+                return ms.ToArray();
+            }
+        }
     }
        
 }
