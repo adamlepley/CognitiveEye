@@ -78,8 +78,8 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Label TextColor="{Binding TextColor}" FontSize="{Binding TextSize}" Text="{Binding Name,StringFormat='{0}:'}"/>
-                            <Label TextColor="{Binding TextColor}" FontSize="{Binding TextSize}" Grid.Column="1" Text="{Binding ValueText}" />
+                            <Label FontAttributes="Bold" TextColor="{Binding TextColor}" FontSize="{Binding TextSize}" Text="{Binding Name,StringFormat='{0}:'}"/>
+                            <Label FontAttributes="Bold" TextColor="{Binding TextColor}" FontSize="{Binding TextSize}" Grid.Column="1" Text="{Binding ValueText}" />
                         </Grid>
                     </DataTemplate>
                 </repeater:RepeaterView.ItemTemplate>
@@ -90,10 +90,18 @@
                 HorizontalOptions="Fill"
                 Margin="0"
                 ControlTemplate="{x:Static Util:Templates.GutterTemplate}" >
-                <Grid>
+                
+                <Grid
+                    ColumnSpacing="10"
+                    Margin="20, 10">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
                     <Button
-                        Margin="20, 10"
+                        Grid.ColumnSpan="2"
                         HeightRequest="45"
                         BackgroundColor="{x:Static Util:ColorUtil.TrainButtonColor}"
                         TextColor="White"
@@ -102,13 +110,23 @@
                         IsVisible="{Binding ShowStart}"/>
 
                     <Button
-                        Margin="20, 10"
                         HeightRequest="45"
                         BackgroundColor="{x:Static Util:ColorUtil.DeleteButtonColor}"
                         TextColor="White"
-                        Text="Stop Core ML Image Classifier"
+                        Text="Stop Classifier"
                         Command="{Binding StopClassifier}"
                         IsVisible="{Binding ShowStop}"/>
+
+                    <Button
+                        Grid.Column="1"
+                        HeightRequest="45"
+                        BackgroundColor="{x:Static Util:ColorUtil.TagButtonColor}"
+                        TextColor="White"
+                        Text="Tag Image"
+                        Clicked="TagImage"
+                        IsVisible="{Binding ShowStop}"/>
+
+                    
 
                 </Grid>
 
