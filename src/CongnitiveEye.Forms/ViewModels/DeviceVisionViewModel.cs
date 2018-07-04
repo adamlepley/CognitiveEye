@@ -24,10 +24,7 @@ namespace CongnitiveEye.Forms.ViewModels
         
         public DeviceVisionViewModel() : base()
         {
-            UsePageTemplate = false;
-
             LoadModel().ConfigureAwait(false);
-
         }
 
         public void ConfigImageClassifier(bool activate)

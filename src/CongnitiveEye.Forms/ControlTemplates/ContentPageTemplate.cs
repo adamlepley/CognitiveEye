@@ -1,5 +1,8 @@
 ﻿using System;
 using CongnitiveEye.Forms.Utilities;
+using CongnitiveEye.Forms.Views.Controls;
+using FFImageLoading.Forms;
+using FFImageLoading.Svg.Forms;
 using Xamarin.Forms;
 
 namespace CongnitiveEye.Forms.ControlTemplates
@@ -37,41 +40,9 @@ namespace CongnitiveEye.Forms.ControlTemplates
             });
 
             // Footer
-            var footer = new Frame()
-            {
-                VerticalOptions = LayoutOptions.End,
-                HorizontalOptions = LayoutOptions.Fill,
-                HeightRequest = SizeUtil.FooterHeight,
-                CornerRadius = 0,
-                Margin = 0,
-                Padding = 0,
-                BackgroundColor = ColorUtil.TileBackgroundColor
-            };
+            var footer = new Footer();
 
             footer.SetValue(Grid.RowProperty, 1);
-
-            footer.Content = new Grid()
-            {
-                Children = 
-                {
-                    new Label()
-                    {
-                        Margin = new Thickness(20, 10),
-                        Text = TextUtil.ApplicationName,
-                        FontSize = 12,
-                        TextColor = ColorUtil.PrimaryTextColor,
-                        HorizontalOptions = LayoutOptions.Center
-                    },
-                    //new Label()
-                    //{
-                    //    Margin = new Thickness(20, 10),
-                    //    Text = TextUtil.FooterCredit,
-                    //    FontSize = 12,
-                    //    TextColor = ColorUtil.PrimaryTextColor,
-                    //    HorizontalOptions = LayoutOptions.End
-                    //}
-                }
-            };
 
             mainGrid.Children.Add(footer);
 

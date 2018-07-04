@@ -43,7 +43,11 @@ namespace CongnitiveEye.Forms.Utilities
 
     public static class SizeUtil
     {
-        public static double FooterHeight = 50d;
+        // Footer
+        public static double FooterButtonIconSize = 30d;
+        public static double FooterButtonTopBottomMargin = 10d;
+        public static double FooterButtonLeftRightMargin = 20d;
+        public static double FooterHeightExpanded = 200d;
     }
 
     public static class TextUtil
