@@ -35,7 +35,9 @@ namespace CongnitiveEye.Forms.Views
         void StartClassifier(object sender, System.EventArgs e)
         {
             ViewModel.ConfigImageClassifier(true);
-            StartImageClassifier().ConfigureAwait(false);
+
+            if (ViewModel.IsPhysicalDevice)
+                StartImageClassifier().ConfigureAwait(false);
         }
 
         async Task TagImage(object sender, System.EventArgs e)

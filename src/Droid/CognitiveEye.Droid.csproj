@@ -199,6 +199,9 @@
     <Reference Include="Xamarin.CustomControls.RepeaterView">
       <HintPath>..\packages\Xamarin.CustomControls.RepeaterView.1.2.2\lib\netstandard1.0\Xamarin.CustomControls.RepeaterView.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.Essentials">
+      <HintPath>..\packages\Xamarin.Essentials.0.8.0-preview\lib\netstandard2.0\Xamarin.Essentials.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
