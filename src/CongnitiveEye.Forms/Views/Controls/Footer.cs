@@ -58,8 +58,6 @@ namespace CongnitiveEye.Forms.Views.Controls
                         
                     double startingHeight, endingHeight = 0d;
 
-                    Expanded = !Expanded;
-
                     if (Expanded)
                     {
                         startingHeight = SizeUtil.FooterHeightExpanded;
@@ -77,6 +75,8 @@ namespace CongnitiveEye.Forms.Views.Controls
                     Easing easing = Easing.CubicOut;
 
                     OutterFrame.Animate("opening", callback, startingHeight, endingHeight,rate, length, easing);
+
+                    Expanded = !Expanded;
                 })
             });
 
