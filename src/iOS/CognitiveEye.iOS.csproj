@@ -219,6 +219,9 @@
     <Reference Include="Xamarin.CustomControls.RepeaterView">
       <HintPath>..\packages\Xamarin.CustomControls.RepeaterView.1.2.2\lib\netstandard1.0\Xamarin.CustomControls.RepeaterView.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.Essentials">
+      <HintPath>..\packages\Xamarin.Essentials.0.8.0-preview\lib\xamarinios10\Xamarin.Essentials.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
@@ -305,6 +308,11 @@
     <BundleResource Include="Resources\background5.jpg" />
     <BundleResource Include="Resources\background5%403x.jpg" />
     <BundleResource Include="Resources\background5%402x.jpg" />
+    <BundleResource Include="Resources\sampleCameraPic.jpg" />
+    <BundleResource Include="Resources\sampleCameraPic%402x.jpg" />
+    <BundleResource Include="Resources\sampleCameraPic%403x.jpg" />
+    <BundleResource Include="Resources\settings.svg" />
+    <BundleResource Include="Resources\info.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.280555\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.280555\build\netstandard1.0\Xamarin.Forms.targets')" />

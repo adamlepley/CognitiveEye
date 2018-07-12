@@ -22,6 +22,7 @@
     <PackageReference Include="Xamarin.FFImageLoading.Transformations" Version="2.4.3.840" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.3.840" />
     <PackageReference Include="Xamarin.CustomControls.RepeaterView" Version="1.2.2" />
+    <PackageReference Include="Xamarin.Essentials" Version="0.8.0-preview" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />
@@ -35,6 +36,7 @@
     <Folder Include="ControlTemplates\" />
     <Folder Include="Models\" />
     <Folder Include="Controls\" />
+    <Folder Include="Views\Controls\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Navigation\INavigationService.cs" />

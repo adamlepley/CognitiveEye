@@ -19,6 +19,8 @@ namespace CongnitiveEye.Forms.ViewModels
         {
             NavService = NavigationService.Instance;
             HideBusy();
+            IsPhysicalDevice = (Xamarin.Essentials.DeviceInfo.DeviceType == Xamarin.Essentials.DeviceType.Physical);
+            IsVirtualDevice = (Xamarin.Essentials.DeviceInfo.DeviceType == Xamarin.Essentials.DeviceType.Virtual);
         }
 
         public void ShowBusy(string title = null, MaskType maskType = MaskType.None)
@@ -74,6 +76,20 @@ namespace CongnitiveEye.Forms.ViewModels
         {
             get => usePageTemplate;
             set => SetProperty(ref usePageTemplate, value);
+        }
+
+        bool isVirtualDevice = false;
+        public bool IsVirtualDevice
+        {
+            get => isVirtualDevice;
+            set => SetProperty(ref isVirtualDevice, value);
+        }
+
+        bool isPhysicalDevice = false;
+        public bool IsPhysicalDevice
+        {
+            get => isPhysicalDevice;
+            set => SetProperty(ref isPhysicalDevice, value);
         }
 
         #endregion

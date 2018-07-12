@@ -22,11 +22,9 @@ namespace CongnitiveEye.Forms.ViewModels
 
         public TimeSpan VisionClassifierInterval = new TimeSpan(0, 0, 0, 1, 0);
         
-        public DeviceVisionViewModel()
+        public DeviceVisionViewModel() : base()
         {
-            UsePageTemplate = false;
-
-            LoadIterations().ConfigureAwait(false);
+            LoadModel().ConfigureAwait(false);
         }
 
         public void ConfigImageClassifier(bool activate)
@@ -37,7 +35,7 @@ namespace CongnitiveEye.Forms.ViewModels
         }
 
 
-        async Task LoadIterations()
+        async Task LoadModel()
         {
             ShowBusy("Downloading / Compiling the Model...");
             try
@@ -60,7 +58,8 @@ namespace CongnitiveEye.Forms.ViewModels
                     ResultEntries.Add(new TagPredicitionResult(tag.Name));
                 }
 
-                await ExecuteDownload();
+                if (IsPhysicalDevice)
+                    await ExecuteDownload();
 
                 ShowStart = true;
 
@@ -239,7 +238,6 @@ namespace CongnitiveEye.Forms.ViewModels
         {
             if (count > 100)
             {
-                ResultsMessage = "Export Timed Out";
                 HideBusy();
                 return;
             }
@@ -253,12 +251,9 @@ namespace CongnitiveEye.Forms.ViewModels
             if (foundModel == null)
             {
                 await App.AppTrainingApi.ExportIterationWithHttpMessagesAsync(App.SelectedProject.Id, selectedIteration.Id, exportPlatform);
-                ShowBusy("Triggered Model Export");
                 await ExecuteDownload();
                 return;
             }
-
-            ShowBusy(string.Format("Model Exporting... {0}", foundModel.Status));
 
             if (foundModel.Status == "Done")
             {

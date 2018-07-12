@@ -15,15 +15,24 @@
             BackgroundColor="{x:Static Util:ColorUtil.TileBackgroundColor}"
             Padding="0" >
 
-            <!--Camera Output-->
-                   
+            <!--Camera Output or Static Image (if simulator)-->
             <Renderers:CameraView
+                IsVisible="{Binding IsPhysicalDevice}"
                 x:Name="Cam"
                 DeviceOptions="Rear"
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="FillAndExpand"
                 Margin="0"/>
 
+            <Image
+                IsVisible="{Binding IsVirtualDevice}"
+                Source="sampleCameraPic.jpg"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                Aspect="AspectFill"
+                Margin="0" />
+
+               
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />

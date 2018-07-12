@@ -19,8 +19,8 @@ namespace CongnitiveEye.Forms.Views
                 vm = value;
                 BindingContext = vm;
 
-                if (vm.UsePageTemplate)
-                    this.ControlTemplate = new ControlTemplate(typeof(ContentPageTemplate));
+                if (!vm.UsePageTemplate)
+                    this.ControlTemplate = new ControlTemplate(typeof(ContentPresenter));
                     
             }
         }
